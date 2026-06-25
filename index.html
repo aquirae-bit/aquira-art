@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquira | アート × テクノロジー × 社会貢献</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">AQUIRA</div>
+        <ul class="nav-links">
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#community">Community</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="lang-switch">
+            <span class="lang active">JA</span> | <span class="lang">EN</span>
+        </div>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+    </nav>
+
+    <header class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>Let's Connect</h1>
+            <p class="hero-subtitle">写真・現代アート・デジタル・社会貢献</p>
+            <p class="hero-js">横浜から世界へ — アートとテクノロジーが交差する場所</p>
+            <a href="#portfolio" class="cta-button">Explore</a>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </header>
+
+    <section class="section" id="portfolio">
+        <div class="container">
+            <h2 class="section-title">Portfolio</h2>
+            <p class="section-subtitle">写真・映像・現代アート作品</p>
+            <div class="grid gallery">
+                <div class="gallery-item" style="--i:1;">
+                    <div class="gallery-image" style="background:linear-gradient(135deg, #111, #2a2a4e);"></div>
+                    <div class="gallery-overlay">
+                        <h3>Urban Twilight</h3>
+                        <p>Photography</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="--i:2;">
+                    <div class="gallery-image" style="background:linear-gradient(135deg, #1a1a2e, #4a3b6a);"></div>
+                    <div class="gallery-overlay">
+                        <h3>Neural Dreams</h3>
+                        <p>Digital Art</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="--i:3;">
+                    <div class="gallery-image" style="background:linear-gradient(135deg, #16213e, #2d5a7a);"></div>
+                    <div class="gallery-overlay">
+                        <h3>Coastal Silence</h3>
+                        <p>Photography</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="--i:4;">
+                    <div class="gallery-image" style="background:linear-gradient(135deg, #2a1a3e, #4a3b6a);"></div>
+                    <div class="gallery-overlay">
+                        <h3>AI Expression</h3>
+                        <p>Contemporary Art</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section dark" id="services">
+        <div class="container">
+            <h2 class="section-title">Services</h2>
+            <p class="section-subtitle">アートとテクノロジーによる創造的ソリューション</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">📸</div>
+                    <h3>Photography</h3>
+                    <p>ポートレート、風景、商業写真 — 物語を紡ぐ一枚を。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎨</div>
+                    <h3>Contemporary Art</h3>
+                    <p>デジタルメディアと伝統技法を融合した作品制作。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💻</div>
+                    <h3>Courses</h3>
+                    <p>AI・デジタルアート・クリエイティブ・コーディング講座。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🤝</div>
+                    <h3>Community</h3>
+                    <p>アートと社会貢献をつなぐ共同プロジェクト。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container about-container">
+            <div class="about-text">
+                <h2 class="section-title">About Aquira</h2>
+                <p>横浜を拠点に活動する写真家・現代アーティスト。</p>
+                <p>写真、映像、デジタルアートを軸に、テクノロジーと社会貢献を結びつけるプロジェクトを展開。Since 1978 — 創造を止めることなく、世界を繋ぎ続ける。</p>
+                <div class="about-badges">
+                    <span class="badge">Photographer</span>
+                    <span class="badge">Artist</span>
+                    <span class="badge">Coder</span>
+                    <span class="badge">AI Creator</span>
+                </div>
+            </div>
+            <div class="about-visual"></div>
+        </div>
+    </section>
+
+    <section class="section dark" id="community">
+        <div class="container">
+            <h2 class="section-title">Community</h2>
+            <p class="section-subtitle">一緒に何かを作ろう</p>
+            <div class="community-stats">
+                <div class="stat">
+                    <span class="stat-number" id="statProjects">0</span>
+                    <span class="stat-label">Projects</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="statCourses">0</span>
+                    <span class="stat-label">Courses</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="statYears">0</span>
+                    <span class="stat-label">Years of Creation</span>
+                </div>
+            </div>
+            <div class="newsletter">
+                <h3>Stay Connected</h3>
+                <p>最新のプロジェクト情報、イベント、特別オファーをお届けします。</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="your@email.com" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <p class="section-subtitle">一緒に仕事をしましょう</p>
+            <form class="contact-form" id="contactForm">
+                <div class="form-row">
+                    <input type="text" placeholder="Name" required>
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <textarea placeholder="Your message..." rows="4" required></textarea>
+                <button type="submit" class="cta-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AQUIRA</h3>
+                <p>Since 1978</p>
+            </div>
+            <div class="footer-links">
+                <a href="#portfolio">Portfolio</a>
+                <a href="#services">Services</a>
+                <a href="#community">Community</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://linkedin.com/in/aquira" target="_blank">in</a>
+                <a href="https://facebook.com/aquira" target="_blank">f</a>
+                <a href="https://instagram.com/aquira" target="_blank">📷</a>
+                <a href="https://youtube.com/@aquira" target="_blank">▶</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aquira. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="https://aqura.app/terms" target="_blank">Terms</a>
+                <a href="https://aqura.app/privacy" target="_blank">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
