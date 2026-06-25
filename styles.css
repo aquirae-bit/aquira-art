@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquira（アキラ）公式サイト | 横浜の写真家・現代アーティスト × アートと社会貢献</title>
+  <meta name="description" content="Aquira（アキラ）は、横浜を拠点に活動する写真家・現代アーティスト。アートと社会貢献を軸に活動。">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: Georgia, serif; }
+    a { color: inherit; text-decoration: none; }
+    .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid #333; }
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .search-box { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 10px 16px; }
+    .search-box input { background: transparent; border: none; color: #fff; outline: none; font-size: 14px; width: 200px; }
+    .btn-detail { background: linear-gradient(135deg, #4a90d9, #6ec5f5); border: none; padding: 18px 40px; border-radius: 50px; color: #000; font-size: 28px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .language-switch { display: flex; gap: 4px; padding: 8px; background: #1a1a1a; border-radius: 50px; margin-top: 8px; }
+    .lang-btn { background: transparent; border: none; color: #666; padding: 4px 12px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12px; }
+    .lang-btn.active { background: #fff; color: #000; }
+    .hero { display: flex; justify-content: space-between; align-items: flex-start; padding: 120px 40px; min-height: 80vh; }
+    .hero-left { max-width: 500px; }
+    .hero-title { font-size: 120px; line-height: 1; letter-spacing: -3px; margin-bottom: 20px; }
+    .social-icons { display: flex; gap: 24px; margin-top: 30px; }
+    .social-icons a { font-size: 24px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; border-radius: 50%; transition: background 0.3s; }
+    .social-icons a:hover { background: #fff; color: #000; }
+    .hero-right { display: flex; flex-direction: column; gap: 20px; align-items: flex-end; }
+    .art-img { width: 280px; height: 280px; object-fit: cover; border-radius: 20px; background: #222; }
+    .art-img.sm { width: 180px; height: 180px; }
+    .footer { background: #0a0a0a; padding: 60px 40px 40px; }
+    .last-updated { background: linear-gradient(90deg, #8b1ba8, #d946ef); padding: 12px 40px; color: #fff; font-size: 13px; font-weight: 500; }
+    .footer-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 40px; padding-top: 30px; border-top: 1px solid #333; }
+    .nav-col h3 { color: #888; font-size: 12px; letter-spacing: 3px; margin-bottom: 20px; }
+    .nav-col a { display: block; color: #666; padding: 4px 0; font-size: 14px; transition: color 0.2s; }
+    .nav-col a:hover { color: #fff; }
+    .footer-brand { text-align: center; padding-top: 40px; margin-top: 40px; border-top: 1px solid #222; }
+    .footer-brand h2 { letter-spacing: 10px; font-size: 24px; margin-bottom: 6px; }
+    .footer-brand p { color: #555; font-size: 12px; }
+    @media (max-width: 768px) {
+      .hero { flex-direction: column; padding: 40px 20px; }
+      .hero-title { font-size: 60px; }
+      .footer-nav { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a href="https://www.aquira.org/sitemap.xml" style="position: absolute; left: 0; top: 0;">https://www.aquira.org//sitemap.xml</a>
+  
+  <header class="header">
+    <div>
+      <div class="header-left">
+        <div class="search-box">
+          <input type="text" placeholder="Search...">
+        </div>
+      </div>
+      <div class="language-switch">
+        <button class="lang-btn active">JA</button>
+        <button class="lang-btn">EN</button>
+        <button class="lang-btn">ES</button>
+        <button class="lang-btn">FR</button>
+      </div>
+    </div>
+    <button class="btn-detail">より詳しく 📖</button>
+  </header>
+
+  <main class="hero">
+    <div class="hero-left">
+      <h1 class="hero-title">Let's<br>Connect</h1>
+      <p style="font-size:20px;color:#666;margin-bottom:20px;letter-spacing:2px;">AQUIRA — アートと社会貢献</p>
+      <div class="social-icons">
+        <a href="https://linkedin.com/in/aquira-fuji" aria-label="LinkedIn">in</a>
+        <a href="https://facebook.com" aria-label="Facebook">f</a>
+        <a href="https://instagram.com" aria-label="Instagram">📷</a>
+        <a href="https://youtube.com" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="art-img" style="display:flex;align-items:center;justify-content:center;background:#333;color:#666;">[Artwork Image]</div>
+      <div class="art-img sm" style="display:flex;align-items:center;justify-content:center;background:#222;color:#555;">[Artwork]</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="last-updated">Last updated: 6 hours ago</div>
+    <nav class="footer-nav">
+      <div class="nav-col">
+        <h3>EXPLORE</h3>
+        <a href="/portfolio-1">Portfolio</a>
+        <a href="/blog">Blog</a>
+        <a href="/projects-1">Projects</a>
+        <a href="/portfolio-1-1">Gallery</a>
+      </div>
+      <div class="nav-col">
+        <h3>EXPERIENCE</h3>
+        <a href="/courses">Courses</a>
+        <a href="/book-online">Book Online</a>
+        <a href="/services">Services</a>
+        <a href="/challenges">Challenges</a>
+      </div>
+      <div class="nav-col">
+        <h3>CONNECT</h3>
+        <a href="/about-4">About</a>
+        <a href="/groups">Community</a>
+        <a href="/refer-friends">Refer Friends</a>
+        <a href="/gift-card">Gift Card</a>
+      </div>
+      <div class="nav-col">
+        <h3>LEGAL</h3>
+        <a href="/japanese-terms-conditions">Terms</a>
+        <a href="/japanese-refund-policy">Refund Policy</a>
+        <a href="/accessibility-statement">Accessibility</a>
+        <a href="/ai-it-section">AI / IT</a>
+      </div>
+    </nav>
+    <div class="footer-brand">
+      <h2>AQU I RA</h2>
+      <p>Audio Visual Artist — Yokohama, Japan</p>
+    </div>
+  </footer>
+</body>
+</html>
