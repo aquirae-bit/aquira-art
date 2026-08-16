@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- AQUIRA style: restrained editorial design — clear hierarchy, generous whitespace, and no decorative app-like UI. -->
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -11,52 +12,54 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+
     <header class="site-header">
       <a class="wordmark" href="#top" aria-label="アキーラ ホーム">アキーラ</a>
-      <nav aria-label="主要ナビゲーション">
+      <nav class="site-header__navigation" aria-label="主要ナビゲーション">
         <a href="#works">作品</a>
         <a href="#practice">活動</a>
         <a href="#about">私たちについて</a>
       </nav>
     </header>
 
-    <main id="top">
-      <section class="hero" aria-labelledby="hero-title">
+    <main id="main-content">
+      <section class="hero" id="top" aria-labelledby="hero-title">
         <p class="eyebrow">YOKOHAMA · SINCE 1978</p>
         <h1 id="hero-title">Art that connects.</h1>
         <p class="lead">
           写真、現代アート、デジタル表現を通じて、
           人と社会をつなぐ創作活動を続けています。
         </p>
-        <a class="button" href="#works">作品を見る</a>
+        <a class="button button--primary" href="#works">作品を見る</a>
       </section>
 
       <section class="section" id="works" aria-labelledby="works-title">
-        <div class="section-heading">
+        <div class="section__heading">
           <p class="eyebrow">SELECTED WORK</p>
           <h2 id="works-title">作品</h2>
         </div>
         <div class="work-list">
-          <article>
-            <p class="work-number">01</p>
+          <article class="work-card">
+            <p class="work-card__number">01</p>
             <h3>Photography</h3>
-            <p>人物、都市、風景を通して、静かな物語を写し取ります。</p>
+            <p class="work-card__description">人物、都市、風景を通して、静かな物語を写し取ります。</p>
           </article>
-          <article>
-            <p class="work-number">02</p>
+          <article class="work-card">
+            <p class="work-card__number">02</p>
             <h3>Contemporary Art</h3>
-            <p>アナログとデジタルの手法を横断し、新しい視点を探ります。</p>
+            <p class="work-card__description">アナログとデジタルの手法を横断し、新しい視点を探ります。</p>
           </article>
-          <article>
-            <p class="work-number">03</p>
+          <article class="work-card">
+            <p class="work-card__number">03</p>
             <h3>Digital Practice</h3>
-            <p>テクノロジーを表現と対話のための道具として活用します。</p>
+            <p class="work-card__description">テクノロジーを表現と対話のための道具として活用します。</p>
           </article>
         </div>
       </section>
 
-      <section class="section section-muted" id="practice" aria-labelledby="practice-title">
-        <div class="section-heading">
+      <section class="section section--muted" id="practice" aria-labelledby="practice-title">
+        <div class="section__heading">
           <p class="eyebrow">PRACTICE</p>
           <h2 id="practice-title">活動</h2>
         </div>
@@ -67,7 +70,7 @@
       </section>
 
       <section class="section" id="about" aria-labelledby="about-title">
-        <div class="section-heading">
+        <div class="section__heading">
           <p class="eyebrow">ABOUT AQUIRA</p>
           <h2 id="about-title">横浜から、世界へ。</h2>
         </div>
@@ -80,8 +83,8 @@
     </main>
 
     <footer class="site-footer">
-      <p>アキーラ</p>
-      <p>アート・テクノロジー・社会実践</p>
+      <p class="site-footer__title">アキーラ</p>
+      <p class="site-footer__description">アート・テクノロジー・社会実践</p>
     </footer>
   </body>
 </html>

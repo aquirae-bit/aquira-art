@@ -1,0 +1,139 @@
+/* AQUIRA style: restrained editorial design — typography, links, and work cards use role-based class names. */
+.wordmark {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+}
+
+.site-header__navigation a,
+.text-link {
+  text-underline-offset: 0.35em;
+}
+
+.hero {
+  display: grid;
+  align-content: center;
+  min-height: 72vh;
+  max-width: 70rem;
+  padding-block: clamp(5rem, 14vw, 10rem);
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--color-accent);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+h1 {
+  max-width: 11ch;
+  margin-bottom: 1.5rem;
+  font-size: clamp(3.8rem, 10vw, 8.5rem);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 0.92;
+}
+
+.lead,
+.statement {
+  max-width: 42rem;
+  margin-bottom: 2rem;
+  font-size: clamp(1.05rem, 2.1vw, 1.35rem);
+}
+
+.button {
+  width: fit-content;
+  padding: 0.75rem 1.15rem;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color var(--interaction-duration) var(--interaction-easing),
+    transform var(--interaction-duration) var(--interaction-easing);
+}
+
+.button--primary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.button--primary:hover {
+  background: var(--color-accent);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.section__heading {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 3rem;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.work-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--color-ink);
+}
+
+.work-card {
+  min-height: 14rem;
+  padding: 1.25rem 1.25rem 1.25rem 0;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.work-card + .work-card {
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--color-rule);
+}
+
+.work-card__number {
+  margin-bottom: 3rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+}
+
+h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.work-card__description,
+.site-footer__description {
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 700px) {
+  .work-list {
+    grid-template-columns: 1fr;
+  }
+
+  .work-card {
+    min-height: auto;
+  }
+
+  .work-card + .work-card {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .work-card__number {
+    margin-bottom: 1rem;
+  }
+}
+

@@ -1,0 +1,15 @@
+/* AQUIRA style: restrained editorial design — semantic tokens preserve the existing warm paper-and-ink palette. */
+:root {
+  --color-ink: #171716;
+  --color-paper: #f4f1ea;
+  --color-paper-muted: #e8e3d8;
+  --color-text-muted: #6d6a63;
+  --color-rule: #cbc6ba;
+  --color-accent: #b7442b;
+
+  --font-display: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-ui: Arial, sans-serif;
+  --page-gutter: clamp(1.25rem, 5vw, 5rem);
+  --interaction-duration: 160ms;
+  --interaction-easing: ease-out;
+}
