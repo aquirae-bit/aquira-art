@@ -31,18 +31,26 @@ function absoluteUrl(pathname) {
   return new URL(pathname, `${content.site.origin}/`).href;
 }
 
-function renderNavigation() {
-  return content.navigation
+function renderNavigation(navigation = content.navigation) {
+  return navigation
     .map((item) => `<a href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`)
     .join("\n");
 }
 
-function renderHeader() {
+function renderHeader({ language = "ja" } = {}) {
+  const englishNavigation = [
+    { label: "Japanese site", href: "/" },
+    { label: "Artist profile", href: "/about/" },
+    { label: "Licensing", href: "/licensing/" },
+  ];
+  const navigation = language === "en" ? englishNavigation : content.navigation;
+  const navigationLabel = language === "en" ? "Primary navigation" : "主要ナビゲーション";
+  const homeLabel = language === "en" ? `${content.site.shortName} home` : `${content.site.name} ホーム`;
   return `
     <header class="site-header">
-      <a class="wordmark" href="/" aria-label="${escapeHtml(content.site.name)} ホーム">${escapeHtml(content.site.shortName)}</a>
-      <nav class="site-header__navigation" aria-label="主要ナビゲーション">
-        ${renderNavigation()}
+      <a class="wordmark" href="/" aria-label="${escapeHtml(homeLabel)}">${escapeHtml(content.site.shortName)}</a>
+      <nav class="site-header__navigation" aria-label="${escapeHtml(navigationLabel)}">
+        ${renderNavigation(navigation)}
       </nav>
     </header>`;
 }
@@ -60,15 +68,16 @@ function renderFooter() {
     </footer>`;
 }
 
-function personSchema() {
+function personSchema({ language = "ja" } = {}) {
+  const isEnglish = language === "en";
   return {
     "@type": "Person",
     "@id": `${content.site.origin}/#aquira`,
     name: content.entity.name,
     alternateName: content.entity.alternateName,
-    jobTitle: content.entity.jobTitle,
-    description: content.entity.description,
-    homeLocation: { "@type": "Place", name: content.entity.location },
+    jobTitle: isEnglish ? content.entity.jobTitleEnglish : content.entity.jobTitle,
+    description: isEnglish ? content.entity.descriptionEnglish : content.entity.description,
+    homeLocation: { "@type": "Place", name: isEnglish ? content.entity.locationEnglish : content.entity.location },
     url: `${content.site.origin}/about/`,
     sameAs: content.entity.sameAs,
   };
@@ -81,19 +90,19 @@ function websiteSchema() {
     url: `${content.site.origin}/`,
     name: content.site.name,
     alternateName: content.site.shortName,
-    inLanguage: "ja-JP",
+    inLanguage: ["ja-JP", "en"],
     publisher: { "@id": `${content.site.origin}/#aquira` },
   };
 }
 
-function pageSchema({ pathname, title, description, type = "WebPage", additional = {} }) {
+function pageSchema({ pathname, title, description, language = "ja-JP", type = "WebPage", additional = {} }) {
   return {
     "@type": type,
     "@id": `${absoluteUrl(pathname)}#webpage`,
     url: absoluteUrl(pathname),
     name: title,
     description,
-    inLanguage: "ja-JP",
+    inLanguage: language,
     isPartOf: { "@id": `${content.site.origin}/#website` },
     about: { "@id": `${content.site.origin}/#aquira` },
     mainEntity: { "@id": `${content.site.origin}/#aquira` },
@@ -102,8 +111,22 @@ function pageSchema({ pathname, title, description, type = "WebPage", additional
   };
 }
 
-function renderHead({ pathname, title, description, schema }) {
+function renderLanguageAlternates(pathname) {
   const canonical = absoluteUrl(pathname);
+  if (pathname === "/" || pathname === "/en/") {
+    return `
+      <link rel="alternate" href="${escapeHtml(absoluteUrl("/"))}" hreflang="ja" />
+      <link rel="alternate" href="${escapeHtml(absoluteUrl("/en/"))}" hreflang="en" />
+      <link rel="alternate" href="${escapeHtml(absoluteUrl("/"))}" hreflang="x-default" />`;
+  }
+  return `
+      <link rel="alternate" href="${escapeHtml(canonical)}" hreflang="ja" />
+      <link rel="alternate" href="${escapeHtml(canonical)}" hreflang="x-default" />`;
+}
+
+function renderHead({ pathname, title, description, schema, language = "ja" }) {
+  const canonical = absoluteUrl(pathname);
+  const isEnglish = language === "en";
   return `
     <head>
       <meta charset="UTF-8" />
@@ -114,10 +137,9 @@ function renderHead({ pathname, title, description, schema }) {
       <meta name="theme-color" content="#101010" />
       <title>${escapeHtml(title)}</title>
       <link rel="canonical" href="${escapeHtml(canonical)}" />
-      <link rel="alternate" href="${escapeHtml(canonical)}" hreflang="ja" />
-      <link rel="alternate" href="${escapeHtml(canonical)}" hreflang="x-default" />
+      ${renderLanguageAlternates(pathname)}
       <link rel="stylesheet" href="/styles.css" />
-      <meta property="og:locale" content="ja_JP" />
+      <meta property="og:locale" content="${isEnglish ? "en_US" : "ja_JP"}" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="${escapeHtml(content.site.name)}" />
       <meta property="og:title" content="${escapeHtml(title)}" />
@@ -130,14 +152,15 @@ function renderHead({ pathname, title, description, schema }) {
     </head>`;
 }
 
-function renderLayout({ pathname, title, description, schema, main }) {
+function renderLayout({ pathname, title, description, schema, main, language = "ja" }) {
+  const skipLabel = language === "en" ? "Skip to content" : "本文へ移動";
   return `<!doctype html>
 <!-- AQUIRA style: Artist Evidence Atlas — visible facts, clear hierarchy, generous editorial whitespace. -->
-<html lang="ja">
-  ${renderHead({ pathname, title, description, schema })}
+<html lang="${escapeHtml(language)}">
+  ${renderHead({ pathname, title, description, schema, language })}
   <body>
-    <a class="skip-link" href="#main-content">本文へ移動</a>
-    ${renderHeader()}
+    <a class="skip-link" href="#main-content">${escapeHtml(skipLabel)}</a>
+    ${renderHeader({ language })}
     <main id="main-content">${main}</main>
     ${renderFooter()}
   </body>
@@ -174,6 +197,11 @@ const homeMain = `
     ${renderSectionHeading("AT A GLANCE", "Aquira（アキラ）は何を制作しているか")}
     <p class="statement">${escapeHtml(content.entity.description)}</p>
     ${renderIdentityFacts()}
+  </section>
+  <section class="section section--muted" aria-labelledby="name-clarification-title">
+    ${renderSectionHeading(content.nameClarification.eyebrow, content.nameClarification.title)}
+    <p id="name-clarification-title" class="statement">${escapeHtml(content.nameClarification.text)}</p>
+    <a class="text-link" href="/licensing/">作品・公式表記の利用許諾について</a>
   </section>
   <section class="section section--muted" aria-labelledby="works-title">
     ${renderSectionHeading(content.works.eyebrow, content.works.title)}
@@ -282,6 +310,36 @@ const practiceSchema = [
   }),
 ];
 
+const licensingTitle = `利用許諾のご相談 | ${content.site.titleSuffix}`;
+const licensingDescription = "Aquira（アキラ）の作品、画像、映像、制作物、公式表記の利用に関する相談窓口と手続を案内します。";
+const licensingMain = `
+  <section class="hero hero--compact" aria-labelledby="licensing-title">
+    <p class="eyebrow">${escapeHtml(content.licensing.eyebrow)}</p>
+    <h1 id="licensing-title">${escapeHtml(content.licensing.title)}</h1>
+    <p class="lead">${escapeHtml(content.licensing.summary)}</p>
+  </section>
+  <section class="section" aria-label="利用許諾の対象">
+    ${renderSectionHeading("SCOPE", "ご相談いただける内容")}
+    <div class="prose-list">${content.licensing.scopes
+      .map((item) => `<article><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></article>`)
+      .join("")}</div>
+  </section>
+  <section class="section section--muted" aria-label="利用許諾の相談手順">
+    ${renderSectionHeading("PROCESS", "ご相談から合意まで")}
+    <div class="prose-list">${content.licensing.consultation
+      .map((item) => `<article><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.description)}</p></article>`)
+      .join("")}</div>
+  </section>`;
+const licensingSchema = [
+  websiteSchema(),
+  personSchema(),
+  pageSchema({
+    pathname: "/licensing/",
+    title: licensingTitle,
+    description: licensingDescription,
+  }),
+];
+
 const faqTitle = `よくある質問 | ${content.site.titleSuffix}`;
 const faqDescription = "Aquira（アキラ）の活動領域、拠点、作品、協働に関する公式のよくある質問です。";
 const faqMain = `
@@ -312,19 +370,60 @@ const faqSchema = [
   },
 ];
 
+const englishPathname = "/en/";
+const englishTitle = content.english.title;
+const englishDescription =
+  "Official website for Aquira, a Yokohama-based photographer, audiovisual artist, and contemporary artist working across photography, moving image, and digital expression.";
+const englishMain = `
+  <section class="hero" aria-labelledby="english-home-title">
+    <p class="eyebrow">${escapeHtml(content.english.eyebrow)}</p>
+    <h1 id="english-home-title">${escapeHtml(content.english.headline)}</h1>
+    <p class="lead">${escapeHtml(content.english.introduction)}</p>
+    <a class="button button--primary" href="/about/">View artist profile</a>
+  </section>
+  <section class="section" aria-labelledby="english-identity-title">
+    ${renderSectionHeading("OFFICIAL IDENTITY", content.english.identityTitle)}
+    <p id="english-identity-title" class="statement">${escapeHtml(content.english.identityText)}</p>
+  </section>
+  <section class="section section--muted" aria-labelledby="english-practice-title">
+    ${renderSectionHeading("SELECTED PRACTICE", content.english.practiceTitle)}
+    <p id="english-practice-title" class="statement">${escapeHtml(content.english.practiceText)}</p>
+  </section>
+  <section class="section" aria-labelledby="english-distinction-title">
+    ${renderSectionHeading("NAME CLARIFICATION", content.english.distinctionTitle)}
+    <p id="english-distinction-title" class="statement">${escapeHtml(content.english.distinctionText)}</p>
+  </section>
+  <section class="section section--muted" aria-labelledby="english-licensing-title">
+    ${renderSectionHeading("LICENSING & PERMISSIONS", content.english.licensingTitle)}
+    <p id="english-licensing-title" class="statement">${escapeHtml(content.english.licensingText)}</p>
+    <a class="text-link" href="/licensing/">View licensing information</a>
+  </section>`;
+const englishSchema = [
+  websiteSchema(),
+  personSchema({ language: "en" }),
+  pageSchema({
+    pathname: englishPathname,
+    title: englishTitle,
+    description: englishDescription,
+    language: "en",
+  }),
+];
+
 const pages = [
   { pathname: "/", output: "index.html", title: homeTitle, description: content.site.description, schema: homeSchema, main: homeMain },
   { pathname: "/about/", output: "about/index.html", title: aboutTitle, description: aboutDescription, schema: aboutSchema, main: aboutMain },
   { pathname: "/works/", output: "works/index.html", title: worksTitle, description: worksDescription, schema: worksSchema, main: worksMain },
   { pathname: "/practice/", output: "practice/index.html", title: practiceTitle, description: practiceDescription, schema: practiceSchema, main: practiceMain },
+  { pathname: "/licensing/", output: "licensing/index.html", title: licensingTitle, description: licensingDescription, schema: licensingSchema, main: licensingMain },
   { pathname: "/faq/", output: "faq/index.html", title: faqTitle, description: faqDescription, schema: faqSchema, main: faqMain },
+  { pathname: englishPathname, output: "en/index.html", title: englishTitle, description: englishDescription, schema: englishSchema, main: englishMain, language: "en" },
 ];
 
 await Promise.all(
   pages.map(async (page) => {
     const outputPath = path.join(projectDirectory, page.output);
     await mkdir(path.dirname(outputPath), { recursive: true });
-    await writeFile(outputPath, renderLayout(page), "utf8");
+    await writeFile(outputPath, `${renderLayout(page).replace(/[ \t]+$/gm, "").trim()}\n`, "utf8");
   }),
 );
 

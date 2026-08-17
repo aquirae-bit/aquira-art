@@ -1,6 +1,6 @@
 /**
  * AQUIRA SEO/AEO output validation.
- * Verifies that generated pages contain matching canonical URLs and parseable JSON-LD.
+ * Verifies generated pages, canonical URLs, language metadata, JSON-LD, sitemap, and crawler rules.
  */
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -8,15 +8,20 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const checks = [
-  ["index.html", "https://www.aquira.art/", "WebPage"],
-  ["about/index.html", "https://www.aquira.art/about/", "ProfilePage"],
-  ["works/index.html", "https://www.aquira.art/works/", "CollectionPage"],
-  ["practice/index.html", "https://www.aquira.art/practice/", "CollectionPage"],
-  ["faq/index.html", "https://www.aquira.art/faq/", "FAQPage"],
+  { file: "index.html", canonical: "https://www.aquira.art/", type: "WebPage", language: "ja" },
+  { file: "about/index.html", canonical: "https://www.aquira.art/about/", type: "ProfilePage", language: "ja" },
+  { file: "works/index.html", canonical: "https://www.aquira.art/works/", type: "CollectionPage", language: "ja" },
+  { file: "practice/index.html", canonical: "https://www.aquira.art/practice/", type: "CollectionPage", language: "ja" },
+  { file: "licensing/index.html", canonical: "https://www.aquira.art/licensing/", type: "WebPage", language: "ja" },
+  { file: "faq/index.html", canonical: "https://www.aquira.art/faq/", type: "FAQPage", language: "ja" },
+  { file: "en/index.html", canonical: "https://www.aquira.art/en/", type: "WebPage", language: "en" },
 ];
 
-for (const [file, canonical, requiredType] of checks) {
+for (const { file, canonical, type, language } of checks) {
   const html = await readFile(path.join(root, file), "utf8");
+  if (!html.includes(`<html lang="${language}">`)) {
+    throw new Error(`${file}: HTML language is missing or incorrect`);
+  }
   if (!html.includes(`<link rel="canonical" href="${canonical}" />`)) {
     throw new Error(`${file}: canonical URL is missing or incorrect`);
   }
@@ -24,22 +29,39 @@ for (const [file, canonical, requiredType] of checks) {
   if (!match) throw new Error(`${file}: JSON-LD script is missing`);
   const schema = JSON.parse(match[1]);
   const graph = schema["@graph"] ?? [];
-  if (!graph.some((item) => item["@type"] === requiredType)) {
-    throw new Error(`${file}: required ${requiredType} schema is missing`);
+  if (!graph.some((item) => item["@type"] === type)) {
+    throw new Error(`${file}: required ${type} schema is missing`);
   }
   if (!graph.some((item) => item["@type"] === "Person" && item.name === "Aquira")) {
     throw new Error(`${file}: Aquira Person entity is missing`);
   }
+  if (!graph.some((item) => item["@type"] === "WebSite")) {
+    throw new Error(`${file}: WebSite entity is missing`);
+  }
+}
+
+const japaneseHome = await readFile(path.join(root, "index.html"), "utf8");
+const englishHome = await readFile(path.join(root, "en/index.html"), "utf8");
+for (const html of [japaneseHome, englishHome]) {
+  if (!html.includes('hreflang="ja" href="https://www.aquira.art/"') && !html.includes('href="https://www.aquira.art/" hreflang="ja"')) {
+    throw new Error("localized home page: Japanese hreflang reference is missing");
+  }
+  if (!html.includes('hreflang="en" href="https://www.aquira.art/en/"') && !html.includes('href="https://www.aquira.art/en/" hreflang="en"')) {
+    throw new Error("localized home page: English hreflang reference is missing");
+  }
 }
 
 const robots = await readFile(path.join(root, "robots.txt"), "utf8");
-for (const bot of ["GPTBot", "Google-Extended", "ClaudeBot", "PerplexityBot"]) {
+for (const bot of ["GPTBot", "Google-Extended", "OAI-SearchBot", "ClaudeBot", "PerplexityBot"]) {
   if (!robots.includes(`User-agent: ${bot}\nAllow: /`)) throw new Error(`robots.txt: ${bot} allowance is missing`);
+}
+if (!robots.includes("User-agent: PetalBot\nDisallow: /")) {
+  throw new Error("robots.txt: PetalBot block is missing");
 }
 
 const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
-for (const [, canonical] of checks) {
+for (const { canonical } of checks) {
   if (!sitemap.includes(`<loc>${canonical}</loc>`)) throw new Error(`sitemap.xml: ${canonical} is missing`);
 }
 
-console.log(`SEO validation passed: ${checks.length} canonical pages, JSON-LD, robots, and sitemap verified.`);
+console.log(`SEO validation passed: ${checks.length} canonical pages, bilingual metadata, JSON-LD, robots, and sitemap verified.`);
