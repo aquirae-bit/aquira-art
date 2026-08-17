@@ -1,75 +1,162 @@
 /**
  * AQUIRA 編集用コンテンツ
- *
- * 日常の文章・作品情報・リンクの更新は、このファイルだけで完結します。
- * 文字列は引用符（"...") の中を編集してください。作品を増やすときは、
- * `works` の最後の { ... } を複製し、番号・タイトル・説明を変更します。
- * 編集後はリポジトリのルートで `node scripts/build-site.mjs` を実行します。
+ * SEO/AEO 方針: Aquira を「横浜を拠点とする写真家・オーディオビジュアル・現代アーティスト」と
+ * 一貫して定義し、ここにある可視本文と同じ事実だけを構造化データに出力する。
+ * 展示歴・受賞歴・協働先・数値実績は、一次資料が確認できるまで追加しない。
  */
 
 const siteContent = {
-  metadata: {
+  site: {
+    origin: "https://www.aquira.art",
     language: "ja",
-    title: "AQUIRA | Art & Technology",
-    description: "Aquira — 写真、現代アート、テクノロジーを横断する創作活動。",
+    name: "Aquira（アキラ）",
+    shortName: "AQUIRA",
+    titleSuffix: "Aquira（アキラ）公式サイト",
+    description:
+      "横浜を拠点に活動する写真家・オーディオビジュアル・現代アーティスト Aquira（アキラ）の公式サイト。写真、映像、現代アート、社会との協働に関する作品と活動記録を紹介します。",
   },
 
-  brand: {
-    wordmark: "アキーラ",
-    homeLabel: "アキーラ ホーム",
+  entity: {
+    name: "Aquira",
+    alternateName: ["アキラ", "AQUIRA"],
+    jobTitle: "写真家・オーディオビジュアル・現代アーティスト",
+    location: "横浜・日本",
+    description:
+      "Aquira（アキラ）は、横浜を拠点に、写真、映像、オーディオビジュアル表現、現代アートを横断して制作するアーティストです。作品、対話、学びの場を通じて、表現が人と社会を結ぶ可能性を探究しています。",
+    sameAs: [
+      "https://www.linkedin.com/in/aquirafillmoonmaker/",
+      "https://www.facebook.com/cameramanakira/",
+      "https://www.instagram.com/aquirart",
+      "https://www.youtube.com/@AQUIRA39",
+    ],
   },
 
   navigation: [
-    { label: "作品", href: "#works" },
-    { label: "活動", href: "#practice" },
-    { label: "私たちについて", href: "#about" },
+    { label: "Aquiraについて", href: "/about/" },
+    { label: "作品", href: "/works/" },
+    { label: "活動と協働", href: "/practice/" },
+    { label: "よくある質問", href: "/faq/" },
   ],
 
   hero: {
-    eyebrow: "YOKOHAMA · SINCE 1978",
-    title: "Art that connects.",
-    description: "写真、現代アート、デジタル表現を通じて、人と社会をつなぐ創作活動を続けています。",
-    button: { label: "作品を見る", href: "#works" },
+    eyebrow: "AQUIRA · YOKOHAMA, JAPAN",
+    title: "光の記録から、社会との接点へ。",
+    description:
+      "Aquira（アキラ）は、横浜を拠点に写真、映像、オーディオビジュアル表現、現代アートを横断して制作するアーティストです。作品と対話、学びの場を通じて、人と社会を結ぶ表現の可能性を探究しています。",
+    button: { label: "Aquiraについて知る", href: "/about/" },
   },
 
+  identityFacts: [
+    { label: "拠点", value: "横浜・日本" },
+    { label: "活動領域", value: "写真・映像・オーディオビジュアル・現代アート" },
+    { label: "テーマ", value: "表現、対話、社会との協働" },
+  ],
+
   works: {
-    eyebrow: "SELECTED WORK",
-    title: "作品",
+    eyebrow: "SELECTED PRACTICE",
+    title: "作品領域",
+    summary:
+      "Aquiraの制作は、写真、現代アート、デジタル表現を横断します。人物、都市、風景、光と場所の関係を手がかりに、静かな物語と新しい視点を探ります。",
     items: [
       {
         number: "01",
         title: "Photography",
-        description: "人物、都市、風景を通して、静かな物語を写し取ります。",
+        description:
+          "人物、都市、風景を通して、光と場所に宿る静かな物語を写し取ります。",
       },
       {
         number: "02",
         title: "Contemporary Art",
-        description: "アナログとデジタルの手法を横断し、新しい視点を探ります。",
+        description:
+          "アナログとデジタルの手法を横断し、鑑賞者との対話から新しい視点を探ります。",
       },
       {
         number: "03",
         title: "Digital Practice",
-        description: "テクノロジーを表現と対話のための道具として活用します。",
+        description:
+          "テクノロジーを、表現と対話の可能性を広げるための道具として活用します。",
       },
     ],
   },
 
   practice: {
-    eyebrow: "PRACTICE",
-    title: "活動",
-    description: "個人制作、共同プロジェクト、学びの場づくりを通じて、創作が社会と交わる余白を育てます。",
+    eyebrow: "ACTIVITY & COLLABORATION",
+    title: "活動と協働",
+    summary:
+      "Aquiraは、個人制作に加え、対話、学びの場、共同プロジェクトを通じて、創作が社会と交わる余白を育てます。協働や講座に関する相談は、公式の問い合わせ窓口から受け付けます。",
+    pillars: [
+      {
+        title: "創作チャレンジ",
+        description:
+          "制作の試行、公開プロセス、記録を共有しながら、新しい表現の方法を育てます。",
+      },
+      {
+        title: "コミュニティと協働",
+        description:
+          "講座、協働プロジェクト、パートナーシップを通じて、持続的で開かれた創作の関係をつくります。",
+      },
+      {
+        title: "対話と記録",
+        description:
+          "作品の背景と制作の問いを記録し、鑑賞者が表現のプロセスに触れられる入口を用意します。",
+      },
+    ],
   },
 
   about: {
-    eyebrow: "ABOUT AQUIRA",
-    title: "横浜から、世界へ。",
-    description: "Aquiraは、写真・映像・現代アートを軸に活動するクリエイティブプラクティスです。表現の可能性を広げながら、持続的で開かれた関係を探究します。",
-    link: { label: "公開サイトへ移動する", href: "https://www.aquira.art/" },
+    eyebrow: "OFFICIAL ARTIST PROFILE",
+    title: "Aquiraについて",
+    summary:
+      "Aquira（アキラ）は、横浜を拠点に活動する写真家・オーディオビジュアル・現代アーティストです。写真、映像、デジタル表現を通じて、個人の記憶、都市、場所、社会との関係を見つめています。",
+    sections: [
+      {
+        title: "表現の領域",
+        text:
+          "写真を出発点に、映像、オーディオビジュアル表現、現代アートへと制作を広げています。メディアを横断しながら、光、時間、場所に残る感覚を作品へと編み直します。",
+      },
+      {
+        title: "社会との関係",
+        text:
+          "Aquiraの活動は、作品の発表だけにとどまりません。対話と学びの場を通じて、表現が人と社会の間に新しい接点を生む可能性を探究します。",
+      },
+      {
+        title: "公式情報について",
+        text:
+          "本ページはAquiraの公式プロフィールです。作品、活動、協働に関する情報は、公式サイトおよび公式にリンクされたプロフィールからご確認ください。",
+      },
+    ],
   },
 
+  faq: [
+    {
+      question: "Aquira（アキラ）はどのようなアーティストですか？",
+      answer:
+        "Aquira（アキラ）は、横浜を拠点に写真、映像、オーディオビジュアル表現、現代アートを横断して制作するアーティストです。作品、対話、学びの場を通じて、表現が人と社会を結ぶ可能性を探究しています。",
+    },
+    {
+      question: "Aquiraの主な作品領域は何ですか？",
+      answer:
+        "写真、現代アート、デジタル表現を主な領域としています。人物、都市、風景、光と場所の関係を手がかりに、静かな物語と新しい視点を探ります。",
+    },
+    {
+      question: "Aquiraはどこを拠点に活動していますか？",
+      answer: "Aquiraは、横浜・日本を拠点に活動しています。",
+    },
+    {
+      question: "協働や講座について相談できますか？",
+      answer:
+        "はい。Aquiraは、講座、協働プロジェクト、パートナーシップに関する相談を受け付けています。最新の公式窓口は、本サイトの問い合わせ導線からご確認ください。",
+    },
+    {
+      question: "CRM製品のAquiraと同じですか？",
+      answer:
+        "いいえ。本サイトのAquira（アキラ）は、横浜を拠点とする写真家・オーディオビジュアル・現代アーティストに関する公式サイトです。放送業界向けのCRM・広告販売支援製品とは別の存在です。",
+    },
+  ],
+
   footer: {
-    title: "アキーラ",
-    description: "アート・テクノロジー・社会実践",
+    title: "Aquira（アキラ）",
+    description: "写真・オーディオビジュアル・現代アート — 横浜・日本",
   },
 };
 

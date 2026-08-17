@@ -1,4 +1,4 @@
-/* AQUIRA style: restrained editorial design — shared gutters and horizontal rules create a booklet-like page flow. */
+/* Artist Evidence Atlas: asymmetrical reading flow, archival rules, and transparent source-oriented footer links. */
 .site-header,
 .site-footer,
 .section,
@@ -34,6 +34,24 @@
   margin: 0;
 }
 
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__links a {
+  text-underline-offset: 0.35em;
+}
+
+.site-footer__meta {
+  align-self: center;
+  white-space: nowrap;
+}
+
 .section {
   padding-block: clamp(4.5rem, 10vw, 8rem);
   border-top: 1px solid var(--color-rule);
@@ -53,5 +71,10 @@
 
   .site-footer {
     flex-direction: column;
+  }
+
+  .site-footer__meta {
+    align-self: flex-start;
+    white-space: normal;
   }
 }
