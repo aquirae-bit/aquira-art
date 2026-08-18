@@ -12,7 +12,7 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectDirectory = path.resolve(scriptDirectory, "..");
 const contentPath = pathToFileURL(path.join(projectDirectory, "content", "site-content.js"));
 const { default: content } = await import(`${contentPath.href}?updated=${Date.now()}`);
-const buildDate = "2026-08-17";
+const buildDate = "2026-08-18";
 
 function escapeHtml(value) {
   return String(value)
@@ -185,6 +185,14 @@ function renderWorkCards(items) {
     .join("")}</div>`;
 }
 
+function renderValueCards(items, { numbered = false } = {}) {
+  return `<div class="value-grid">${items
+    .map(
+      (item, index) => `<article class="value-card">${numbered ? `<p class="value-card__index">${String(index + 1).padStart(2, "0")}</p>` : ""}<h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p></article>`,
+    )
+    .join("")}</div>`;
+}
+
 const homeTitle = `${content.site.name} | 横浜の写真家・現代アーティスト`;
 const homeMain = `
   <section class="hero" aria-labelledby="hero-title">
@@ -340,6 +348,80 @@ const licensingSchema = [
   }),
 ];
 
+const policyTitle = `Aquira Policy｜コア原則 | ${content.site.titleSuffix}`;
+const policyDescription = "Aquiraが大切にするコア原則。自由・快適さ・心の余白を、時間やお金より上位に置き、心身の安全と長期的な信頼を守る創造と協働を考えます。";
+const policyMain = `
+  <section class="hero hero--compact" aria-labelledby="policy-title">
+    <p class="eyebrow">${escapeHtml(content.policy.eyebrow)}</p>
+    <h1 id="policy-title">${escapeHtml(content.policy.title)}</h1>
+    <p class="lead">${escapeHtml(content.policy.summary)}</p>
+  </section>
+  <section class="section section--muted" aria-labelledby="policy-priority-title">
+    ${renderSectionHeading("FIRST PRINCIPLE", "何を大切にするかを、先に決める。")}
+    <p id="policy-priority-title" class="statement">Aquiraの提案と意思決定には、明確な順序があります。時間やお金は大切な資源です。ただし、それらは、自由で穏やかな生活と、心身の安全が守られてはじめて意味を持ちます。この順序を曖昧にしないことが、創造性と信頼を長く育てる土台になると考えています。</p>
+    <ol class="priority-list" aria-label="Aquiraの意思決定における優先順位">${content.policy.priority
+      .map((item, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span>${escapeHtml(item)}</li>`)
+      .join("")}</ol>
+  </section>
+  <section class="section" aria-labelledby="policy-sanctuary-title">
+    ${renderSectionHeading("SANCTUARY", "心身の安全は、すべての表現の前提です。")}
+    <p id="policy-sanctuary-title" class="statement">収益、効率、成長は目的そのものではありません。心身聖域と尊厳を守れる範囲で、はじめて意味を持つものです。</p>
+    ${renderValueCards(content.policy.sanctuary, { numbered: true })}
+  </section>
+  <section class="section section--muted" aria-labelledby="policy-judgment-title">
+    ${renderSectionHeading("INDEPENDENT JUDGMENT", "いまだけを見ず、過去と未来を重ねて考える。")}
+    <p id="policy-judgment-title" class="statement">Aquiraは、多数派の意見や一時的な流行に、そのまま答えを委ねません。過去に積み重ねられた文脈、いま目の前にある制約、そして未来に残る影響を重ね、必要な優先順位を明らかにします。</p>
+    ${renderValueCards(content.policy.judgment)}
+  </section>
+  <section class="section" aria-labelledby="policy-invitation-title">
+    ${renderSectionHeading("A QUIET INVITATION", "急がず、まず対話から。")}
+    <p id="policy-invitation-title" class="statement">作品、協働、学び、あるいはまだ言葉になっていない構想について。Aquiraは、相手の時間と心の余白を尊重する対話を大切にします。目的や条件が固まっていなくても、静かな相談から始めていただけます。</p>
+    <a class="button button--primary" href="/practice/">活動と協働について知る</a>
+  </section>`;
+const policySchema = [
+  websiteSchema(),
+  personSchema(),
+  pageSchema({ pathname: "/policy/", title: policyTitle, description: policyDescription }),
+];
+
+const ecosystemTitle = `Aquira Ecosystem｜美と静けさの実践 | ${content.site.titleSuffix}`;
+const ecosystemDescription = "Aquiraは、作品、知識、表現、技術、顧客理解、制作力を積み重ねる資産と考えます。美と静けさを起点に、独自性と長期的な信頼を育てる創造の場です。";
+const ecosystemMain = `
+  <section class="hero hero--compact" aria-labelledby="ecosystem-title">
+    <p class="eyebrow">${escapeHtml(content.ecosystem.eyebrow)}</p>
+    <h1 id="ecosystem-title">${escapeHtml(content.ecosystem.title)}</h1>
+    <p class="lead">${escapeHtml(content.ecosystem.summary)}</p>
+  </section>
+  <section class="section" aria-labelledby="capabilities-title">
+    ${renderSectionHeading("BUILDING IN-HOUSE CAPABILITIES", "自分の目で見て、自分の言葉で選ぶ。")}
+    <p id="capabilities-title" class="statement">ツール、AI、外部との協働は、可能性を広げる大切な手段です。一方で、判断の中心を外に預けないことも同じくらい大切です。Aquiraは、知識と表現、ブランドと技術、顧客理解と制作力を、独自性と再現性を高めるための基盤として育てます。</p>
+    ${renderValueCards(content.ecosystem.capabilities, { numbered: true })}
+  </section>
+  <section class="section section--muted" aria-labelledby="values-title">
+    ${renderSectionHeading("ART × DESIGN THINKING", "感じることと、整えることの間に答えを探す。")}
+    <p id="values-title" class="statement">Aquiraの創造は、感性だけにも、効率だけにも寄りません。美しいと感じること、心が動くこと、日々のなかで使えること、文化的な意味を持つこと。それぞれを丁寧に見つめ、長く手元に残る価値へと整えていきます。</p>
+    ${renderValueCards(content.ecosystem.values)}
+  </section>
+  <section class="section" aria-labelledby="gentle-design-title">
+    ${renderSectionHeading("GENTLE DESIGN", "選ぶことを、少し軽やかに。")}
+    <p id="gentle-design-title" class="statement">美意識の高い方、コレクター、文化やウェルビーイングに関心のある方、そして感受性が豊かな方が、無理なく立ち寄れる場を目指しています。Aquiraは、情報量や刺激を増やすのではなく、理解しやすく、心地よく、信頼の置ける導線を整えます。</p>
+    ${renderValueCards(content.ecosystem.principles)}
+  </section>
+  <section class="section section--muted" aria-labelledby="ecosystem-invitation-title">
+    ${renderSectionHeading("WAYS TO CONNECT", "作品から、対話へ。対話から、次の表現へ。")}
+    <p id="ecosystem-invitation-title" class="statement">Aquiraのエコシステムは、ひとつの正解へ導くためのものではありません。作品を観ること、考えを読むこと、学びや対話に触れることを通して、それぞれが自分の速度で、次の視点を見つけられるようにするための場です。</p>
+    <div class="related-sites">
+      <a class="related-sites__card related-sites__card--art" href="/works/"><span class="related-sites__index">01</span><span><strong>作品と余韻</strong><small>光、場所、時間をめぐる表現に触れる入口。</small></span><span class="related-sites__arrow">→</span></a>
+      <a class="related-sites__card related-sites__card--record" href="https://note.com/aquira" rel="noopener"><span class="related-sites__index">02</span><span><strong>記録と学び</strong><small>観察、制作、対話から生まれる考えをたどる入口。</small></span><span class="related-sites__arrow">→</span></a>
+      <a class="related-sites__card related-sites__card--public" href="/practice/"><span class="related-sites__index">03</span><span><strong>協働と相談</strong><small>アイデアや条件が未整理の段階から、静かに話す入口。</small></span><span class="related-sites__arrow">→</span></a>
+    </div>
+  </section>`;
+const ecosystemSchema = [
+  websiteSchema(),
+  personSchema(),
+  pageSchema({ pathname: "/ecosystem/", title: ecosystemTitle, description: ecosystemDescription }),
+];
+
 const faqTitle = `よくある質問 | ${content.site.titleSuffix}`;
 const faqDescription = "Aquira（アキラ）の活動領域、拠点、作品、協働に関する公式のよくある質問です。";
 const faqMain = `
@@ -412,6 +494,8 @@ const englishSchema = [
 const pages = [
   { pathname: "/", output: "index.html", title: homeTitle, description: content.site.description, schema: homeSchema, main: homeMain },
   { pathname: "/about/", output: "about/index.html", title: aboutTitle, description: aboutDescription, schema: aboutSchema, main: aboutMain },
+  { pathname: "/policy/", output: "policy/index.html", title: policyTitle, description: policyDescription, schema: policySchema, main: policyMain },
+  { pathname: "/ecosystem/", output: "ecosystem/index.html", title: ecosystemTitle, description: ecosystemDescription, schema: ecosystemSchema, main: ecosystemMain },
   { pathname: "/works/", output: "works/index.html", title: worksTitle, description: worksDescription, schema: worksSchema, main: worksMain },
   { pathname: "/practice/", output: "practice/index.html", title: practiceTitle, description: practiceDescription, schema: practiceSchema, main: practiceMain },
   { pathname: "/licensing/", output: "licensing/index.html", title: licensingTitle, description: licensingDescription, schema: licensingSchema, main: licensingMain },

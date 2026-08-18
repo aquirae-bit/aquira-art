@@ -37,6 +37,7 @@ const siteContent = {
 
   navigation: [
     { label: "Aquiraについて", href: "/about/" },
+    { label: "思想と原則", href: "/policy/" },
     { label: "作品", href: "/works/" },
     { label: "活動と協働", href: "/practice/" },
     { label: "利用許諾のご相談", href: "/licensing/" },
@@ -177,6 +178,53 @@ const siteContent = {
         text:
           "本ページはAquiraの公式プロフィールです。作品、活動、協働に関する情報は、公式サイトおよび公式にリンクされたプロフィールからご確認ください。",
       },
+    ],
+  },
+
+  policy: {
+    eyebrow: "AQUIRA POLICY",
+    title: "自由と静けさから、創造をはじめる。",
+    summary:
+      "Aquiraは、作品づくり、対話、協働において、短期的な効率や慣習的な正解よりも、ひとりひとりの自由、快適さ、心の余白を大切にします。美しいものをつくることは、無理を重ねることではなく、よく見て、よく選び、持続できる形へ整えることだと考えています。",
+    priority: ["自由・快適さ・心の余白", "時間", "お金"],
+    sanctuary: [
+      { title: "静けさを守る", description: "過剰な競争、同調、消耗を前提にしません。時間、注意力、感情のエネルギーを、創造に必要な大切な資本として扱います。" },
+      { title: "自由な選択を残す", description: "急がせるための言葉や、選択肢を狭めるための設計ではなく、理解し、考え、納得して選べる余白を整えます。" },
+      { title: "成長の位置づけ", description: "収益、効率、成長は目的そのものではありません。心身聖域と尊厳を守れる範囲で、はじめて意味を持つものです。" },
+    ],
+    judgment: [
+      { title: "過去の文脈", description: "何が積み重ねられ、何を守るべきかを見つめます。" },
+      { title: "現在の制約", description: "時間、体力、関係性、実装の条件を正直に扱います。" },
+      { title: "将来への影響", description: "後悔を減らし、自由と選択肢を残す形を考えます。" },
+    ],
+  },
+
+  ecosystem: {
+    eyebrow: "AQUIRA ECOSYSTEM",
+    title: "美意識を、内側から育てる。",
+    summary:
+      "Aquiraは、外部への依存を増やすことではなく、自分自身で見つめ、選び、表現する力を育てることを大切にしています。作品、知識、技術、顧客理解、制作の経験を、使い切るためではなく、次の創造へつながる資産として静かに蓄積します。",
+    capabilities: [
+      { title: "知識", description: "観察と学びを、次の問いを深めるために蓄積します。" },
+      { title: "表現", description: "一回性の体験を、静かな物語として形にします。" },
+      { title: "ブランド", description: "誇張ではなく、言葉と行動の一致から信頼を育てます。" },
+      { title: "技術", description: "新しさのためではなく、表現と対話を豊かにするために使います。" },
+      { title: "顧客理解", description: "相手の背景、時間、感受性を尊重し、関係を急がせません。" },
+      { title: "制作力", description: "試行と記録を重ね、学習速度と再現性を高めます。" },
+    ],
+    values: [
+      { title: "美的価値", description: "見るたびに新しい余韻が残ること。" },
+      { title: "感情的価値", description: "心を急かさず、自分自身へ戻れること。" },
+      { title: "機能的価値", description: "迷わず理解し、無理なく使えること。" },
+      { title: "社会的価値", description: "信頼と対話、文化的なつながりが生まれること。" },
+      { title: "文化的・象徴的価値", description: "物語や記憶が、個人と場所をゆるやかに結ぶこと。" },
+      { title: "長期的な資産性", description: "時間が経っても、学びと選択肢を残すこと。" },
+    ],
+    principles: [
+      { title: "Easy", description: "内容と次の一歩を、わかりやすく整える。" },
+      { title: "Attractive", description: "静かな魅力と、選びたくなる美しさを保つ。" },
+      { title: "Social", description: "相手の尊厳を守りながら、信頼と文化的なつながりを育てる。" },
+      { title: "Timely", description: "いまの状況、時間、心の余白に合う選択肢を示す。" },
     ],
   },
 
