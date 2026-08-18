@@ -60,3 +60,52 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Accessibility preferences: persistent user-controlled reading adjustments. */
+:root {
+  --a11y-font-scale: 1;
+}
+
+html {
+  font-size: calc(100% * var(--a11y-font-scale));
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.a11y-high-contrast {
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+  --color-paper-muted: #ffffff;
+  --color-text-muted: #1f1f1f;
+  --color-rule: #5c5c5c;
+  --color-accent: #8a1f0b;
+}
+
+.a11y-high-contrast :focus-visible {
+  outline-width: 3px;
+  outline-color: #0047ab;
+}
+
+.a11y-underline-links a:not(.button):not(.wordmark) {
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.2em;
+}
+
+.a11y-reduce-motion,
+.a11y-reduce-motion * {
+  scroll-behavior: auto !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

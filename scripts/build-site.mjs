@@ -64,7 +64,7 @@ function renderFooter() {
     <footer class="site-footer">
       <p class="site-footer__title">${escapeHtml(content.footer.title)}</p>
       <p class="site-footer__description">${escapeHtml(content.footer.description)}</p>
-      <ul class="site-footer__links" aria-label="公式プロフィールとお問い合わせ"><li><a href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.label)}</a></li>${socialLinks}</ul>
+      <ul class="site-footer__links" aria-label="公式プロフィールとお問い合わせ"><li><a href="/accessibility/">アクセシビリティ</a></li><li><a href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.label)}</a></li>${socialLinks}</ul>
       <p class="site-footer__meta">公式情報の最終更新: <time datetime="${buildDate}">${buildDate}</time></p>
     </footer>`;
 }
@@ -140,6 +140,7 @@ function renderHead({ pathname, title, description, schema, language = "ja" }) {
       <link rel="canonical" href="${escapeHtml(canonical)}" />
       ${renderLanguageAlternates(pathname)}
       <link rel="stylesheet" href="/styles.css" />
+      <script src="/accessibility.js" defer></script>
       <meta property="og:locale" content="${isEnglish ? "en_US" : "ja_JP"}" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="${escapeHtml(content.site.name)}" />
@@ -153,6 +154,23 @@ function renderHead({ pathname, title, description, schema, language = "ja" }) {
     </head>`;
 }
 
+function renderAccessibilityTools({ language = "ja" } = {}) {
+  const copy = language === "en"
+    ? { trigger: "Display settings", title: "Display settings", close: "Close", smaller: "Smaller text", larger: "Larger text", contrast: "High contrast", underline: "Underline links", motion: "Reduce motion", reset: "Reset", page: "Accessibility information" }
+    : { trigger: "表示設定", title: "表示設定", close: "閉じる", smaller: "文字を小さく", larger: "文字を大きく", contrast: "高コントラスト", underline: "リンクに下線", motion: "動きを抑える", reset: "初期状態に戻す", page: "アクセシビリティに関する情報" };
+  return `
+    <div class="a11y-tools">
+      <button class="a11y-tools__trigger" type="button" data-a11y-trigger aria-expanded="false" aria-controls="a11y-panel">${escapeHtml(copy.trigger)}</button>
+      <section class="a11y-tools__panel" id="a11y-panel" data-a11y-panel role="dialog" aria-modal="false" aria-labelledby="a11y-panel-title" hidden>
+        <div class="a11y-tools__panel-header"><h2 id="a11y-panel-title">${escapeHtml(copy.title)}</h2><button class="a11y-tools__close" type="button" data-a11y-close aria-label="${escapeHtml(copy.close)}">×</button></div>
+        <p>お使いの端末に合わせて、読みやすさや動きの量を調整できます。</p>
+        <div class="a11y-tools__actions"><button type="button" data-a11y-action="font-decrease">A− ${escapeHtml(copy.smaller)}</button><button type="button" data-a11y-action="font-increase">A＋ ${escapeHtml(copy.larger)}</button><button type="button" data-a11y-action="contrast" aria-pressed="false">${escapeHtml(copy.contrast)}</button><button type="button" data-a11y-action="underline" aria-pressed="false">${escapeHtml(copy.underline)}</button><button type="button" data-a11y-action="motion" aria-pressed="false">${escapeHtml(copy.motion)}</button><button type="button" data-a11y-action="reset">${escapeHtml(copy.reset)}</button></div>
+        <a class="text-link" href="/accessibility/">${escapeHtml(copy.page)}</a>
+      </section>
+      <p class="visually-hidden" data-a11y-status aria-live="polite" aria-atomic="true"></p>
+    </div>`;
+}
+
 function renderLayout({ pathname, title, description, schema, main, language = "ja" }) {
   const skipLabel = language === "en" ? "Skip to content" : "本文へ移動";
   return `<!doctype html>
@@ -164,12 +182,14 @@ function renderLayout({ pathname, title, description, schema, main, language = "
     ${renderHeader({ language })}
     <main id="main-content">${main}</main>
     ${renderFooter()}
+    ${renderAccessibilityTools({ language })}
   </body>
 </html>`;
 }
 
-function renderSectionHeading(eyebrow, title) {
-  return `<div class="section__heading"><p class="eyebrow">${escapeHtml(eyebrow)}</p><h2>${escapeHtml(title)}</h2></div>`;
+function renderSectionHeading(eyebrow, title, id = "") {
+  const idAttribute = id ? ` id="${escapeHtml(id)}"` : "";
+  return `<div class="section__heading"><p class="eyebrow">${escapeHtml(eyebrow)}</p><h2${idAttribute}>${escapeHtml(title)}</h2></div>`;
 }
 
 function renderIdentityFacts() {
@@ -214,34 +234,34 @@ const homeMain = `
     </div>
   </section>
   <section class="section" aria-labelledby="identity-title">
-    ${renderSectionHeading("AT A GLANCE", "Aquira（アキラ）は何を制作しているか")}
+    ${renderSectionHeading("AT A GLANCE", "Aquira（アキラ）は何を制作しているか", "identity-title")}
     <p class="statement">${escapeHtml(content.entity.description)}</p>
     ${renderIdentityFacts()}
   </section>
   <section class="section section--muted" aria-labelledby="name-clarification-title">
-    ${renderSectionHeading(content.nameClarification.eyebrow, content.nameClarification.title)}
-    <p id="name-clarification-title" class="statement">${escapeHtml(content.nameClarification.text)}</p>
+    ${renderSectionHeading(content.nameClarification.eyebrow, content.nameClarification.title, "name-clarification-title")}
+    <p class="statement">${escapeHtml(content.nameClarification.text)}</p>
     <a class="text-link" href="/licensing/">作品・公式表記の利用許諾について</a>
   </section>
   <section class="section section--muted" aria-labelledby="works-title">
-    ${renderSectionHeading(content.works.eyebrow, content.works.title)}
+    ${renderSectionHeading(content.works.eyebrow, content.works.title, "works-title")}
     <p class="statement">${escapeHtml(content.works.summary)}</p>
     ${renderWorkCards(content.works.items)}
     <a class="text-link" href="/works/">作品領域の詳細を見る</a>
   </section>
   <section class="section" aria-labelledby="practice-title">
-    ${renderSectionHeading(content.practice.eyebrow, content.practice.title)}
+    ${renderSectionHeading(content.practice.eyebrow, content.practice.title, "practice-title")}
     <p class="statement">${escapeHtml(content.practice.summary)}</p>
     <a class="text-link" href="/practice/">活動と協働について知る</a>
   </section>
   <section class="section section--contact" aria-labelledby="contact-title">
-    ${renderSectionHeading(content.contact.eyebrow, content.contact.title)}
-    <p id="contact-title" class="statement">${escapeHtml(content.contact.description)}</p>
+    ${renderSectionHeading(content.contact.eyebrow, content.contact.title, "contact-title")}
+    <p class="statement">${escapeHtml(content.contact.description)}</p>
     <a class="button button--primary" href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.buttonLabel)}</a>
   </section>
   <section class="section section--muted" aria-labelledby="relation-map-title">
-    ${renderSectionHeading(content.relatedSites.eyebrow, content.relatedSites.title)}
-    <p id="relation-map-title" class="statement">${escapeHtml(content.relatedSites.summary)}</p>
+    ${renderSectionHeading(content.relatedSites.eyebrow, content.relatedSites.title, "relation-map-title")}
+    <p class="statement">${escapeHtml(content.relatedSites.summary)}</p>
     ${renderRelatedSiteLinks()}
   </section>`;
 
@@ -260,7 +280,7 @@ const aboutMain = `
     <p class="lead">${escapeHtml(content.about.summary)}</p>
   </section>
   <section class="section" aria-labelledby="profile-facts-title">
-    ${renderSectionHeading("IDENTITY", "公式プロフィール")}
+    ${renderSectionHeading("IDENTITY", "公式プロフィール", "profile-facts-title")}
     ${renderIdentityFacts()}
   </section>
   <section class="section section--muted" aria-label="Aquiraの創作活動">
@@ -292,7 +312,7 @@ const worksMain = `
     ${renderWorkCards(content.works.items)}
   </section>
   <section class="section section--muted" aria-labelledby="works-context-title">
-    ${renderSectionHeading("CONTEXT", "作品を読むための手がかり")}
+    ${renderSectionHeading("CONTEXT", "作品を読むための手がかり", "works-context-title")}
     <p class="statement">Aquiraの作品では、人物、都市、風景、光と場所の関係を手がかりに、記憶と現在の間にある感覚を見つめます。各作品の制作年、媒体、展示・発表の記録は、確認済みの情報から順次公開します。</p>
   </section>`;
 const worksSchema = [
@@ -379,25 +399,25 @@ const policyMain = `
     <p class="lead">${escapeHtml(content.policy.summary)}</p>
   </section>
   <section class="section section--muted" aria-labelledby="policy-priority-title">
-    ${renderSectionHeading("FIRST PRINCIPLE", "何を大切にするかを、先に決める。")}
-    <p id="policy-priority-title" class="statement">Aquiraの提案と意思決定には、明確な順序があります。時間やお金は大切な資源です。ただし、それらは、自由で穏やかな生活と、心身の安全が守られてはじめて意味を持ちます。この順序を曖昧にしないことが、創造性と信頼を長く育てる土台になると考えています。</p>
+    ${renderSectionHeading("FIRST PRINCIPLE", "何を大切にするかを、先に決める。", "policy-priority-title")}
+    <p class="statement">Aquiraの提案と意思決定には、明確な順序があります。時間やお金は大切な資源です。ただし、それらは、自由で穏やかな生活と、心身の安全が守られてはじめて意味を持ちます。この順序を曖昧にしないことが、創造性と信頼を長く育てる土台になると考えています。</p>
     <ol class="priority-list" aria-label="Aquiraの意思決定における優先順位">${content.policy.priority
       .map((item, index) => `<li><span>${String(index + 1).padStart(2, "0")}</span>${escapeHtml(item)}</li>`)
       .join("")}</ol>
   </section>
   <section class="section" aria-labelledby="policy-sanctuary-title">
-    ${renderSectionHeading("SANCTUARY", "心身の安全は、すべての表現の前提です。")}
-    <p id="policy-sanctuary-title" class="statement">収益、効率、成長は目的そのものではありません。心身聖域と尊厳を守れる範囲で、はじめて意味を持つものです。</p>
+    ${renderSectionHeading("SANCTUARY", "心身の安全は、すべての表現の前提です。", "policy-sanctuary-title")}
+    <p class="statement">収益、効率、成長は目的そのものではありません。心身聖域と尊厳を守れる範囲で、はじめて意味を持つものです。</p>
     ${renderValueCards(content.policy.sanctuary, { numbered: true })}
   </section>
   <section class="section section--muted" aria-labelledby="policy-judgment-title">
-    ${renderSectionHeading("INDEPENDENT JUDGMENT", "いまだけを見ず、過去と未来を重ねて考える。")}
-    <p id="policy-judgment-title" class="statement">Aquiraは、多数派の意見や一時的な流行に、そのまま答えを委ねません。過去に積み重ねられた文脈、いま目の前にある制約、そして未来に残る影響を重ね、必要な優先順位を明らかにします。</p>
+    ${renderSectionHeading("INDEPENDENT JUDGMENT", "いまだけを見ず、過去と未来を重ねて考える。", "policy-judgment-title")}
+    <p class="statement">Aquiraは、多数派の意見や一時的な流行に、そのまま答えを委ねません。過去に積み重ねられた文脈、いま目の前にある制約、そして未来に残る影響を重ね、必要な優先順位を明らかにします。</p>
     ${renderValueCards(content.policy.judgment)}
   </section>
   <section class="section" aria-labelledby="policy-invitation-title">
-    ${renderSectionHeading("A QUIET INVITATION", "急がず、まず対話から。")}
-    <p id="policy-invitation-title" class="statement">作品、協働、学び、あるいはまだ言葉になっていない構想について。Aquiraは、相手の時間と心の余白を尊重する対話を大切にします。目的や条件が固まっていなくても、静かな相談から始めていただけます。</p>
+    ${renderSectionHeading("A QUIET INVITATION", "急がず、まず対話から。", "policy-invitation-title")}
+    <p class="statement">作品、協働、学び、あるいはまだ言葉になっていない構想について。Aquiraは、相手の時間と心の余白を尊重する対話を大切にします。目的や条件が固まっていなくても、静かな相談から始めていただけます。</p>
     <a class="button button--primary" href="/practice/">活動と協働について知る</a>
   </section>`;
 const policySchema = [
@@ -415,23 +435,23 @@ const ecosystemMain = `
     <p class="lead">${escapeHtml(content.ecosystem.summary)}</p>
   </section>
   <section class="section" aria-labelledby="capabilities-title">
-    ${renderSectionHeading("BUILDING IN-HOUSE CAPABILITIES", "自分の目で見て、自分の言葉で選ぶ。")}
-    <p id="capabilities-title" class="statement">ツール、AI、外部との協働は、可能性を広げる大切な手段です。一方で、判断の中心を外に預けないことも同じくらい大切です。Aquiraは、知識と表現、ブランドと技術、顧客理解と制作力を、独自性と再現性を高めるための基盤として育てます。</p>
+    ${renderSectionHeading("BUILDING IN-HOUSE CAPABILITIES", "自分の目で見て、自分の言葉で選ぶ。", "capabilities-title")}
+    <p class="statement">ツール、AI、外部との協働は、可能性を広げる大切な手段です。一方で、判断の中心を外に預けないことも同じくらい大切です。Aquiraは、知識と表現、ブランドと技術、顧客理解と制作力を、独自性と再現性を高めるための基盤として育てます。</p>
     ${renderValueCards(content.ecosystem.capabilities, { numbered: true })}
   </section>
   <section class="section section--muted" aria-labelledby="values-title">
-    ${renderSectionHeading("ART × DESIGN THINKING", "感じることと、整えることの間に答えを探す。")}
-    <p id="values-title" class="statement">Aquiraの創造は、感性だけにも、効率だけにも寄りません。美しいと感じること、心が動くこと、日々のなかで使えること、文化的な意味を持つこと。それぞれを丁寧に見つめ、長く手元に残る価値へと整えていきます。</p>
+    ${renderSectionHeading("ART × DESIGN THINKING", "感じることと、整えることの間に答えを探す。", "values-title")}
+    <p class="statement">Aquiraの創造は、感性だけにも、効率だけにも寄りません。美しいと感じること、心が動くこと、日々のなかで使えること、文化的な意味を持つこと。それぞれを丁寧に見つめ、長く手元に残る価値へと整えていきます。</p>
     ${renderValueCards(content.ecosystem.values)}
   </section>
   <section class="section" aria-labelledby="gentle-design-title">
-    ${renderSectionHeading("GENTLE DESIGN", "選ぶことを、少し軽やかに。")}
-    <p id="gentle-design-title" class="statement">美意識の高い方、コレクター、文化やウェルビーイングに関心のある方、そして感受性が豊かな方が、無理なく立ち寄れる場を目指しています。Aquiraは、情報量や刺激を増やすのではなく、理解しやすく、心地よく、信頼の置ける導線を整えます。</p>
+    ${renderSectionHeading("GENTLE DESIGN", "選ぶことを、少し軽やかに。", "gentle-design-title")}
+    <p class="statement">美意識の高い方、コレクター、文化やウェルビーイングに関心のある方、そして感受性が豊かな方が、無理なく立ち寄れる場を目指しています。Aquiraは、情報量や刺激を増やすのではなく、理解しやすく、心地よく、信頼の置ける導線を整えます。</p>
     ${renderValueCards(content.ecosystem.principles)}
   </section>
   <section class="section section--muted" aria-labelledby="ecosystem-invitation-title">
-    ${renderSectionHeading("WAYS TO CONNECT", "作品から、対話へ。対話から、次の表現へ。")}
-    <p id="ecosystem-invitation-title" class="statement">Aquiraのエコシステムは、ひとつの正解へ導くためのものではありません。作品を観ること、考えを読むこと、学びや対話に触れることを通して、それぞれが自分の速度で、次の視点を見つけられるようにするための場です。</p>
+    ${renderSectionHeading("WAYS TO CONNECT", "作品から、対話へ。対話から、次の表現へ。", "ecosystem-invitation-title")}
+    <p class="statement">Aquiraのエコシステムは、ひとつの正解へ導くためのものではありません。作品を観ること、考えを読むこと、学びや対話に触れることを通して、それぞれが自分の速度で、次の視点を見つけられるようにするための場です。</p>
     <div class="related-sites">
       <a class="related-sites__card related-sites__card--art" href="/works/"><span class="related-sites__index">01</span><span><strong>作品と余韻</strong><small>光、場所、時間をめぐる表現に触れる入口。</small></span><span class="related-sites__arrow">→</span></a>
       <a class="related-sites__card related-sites__card--record" href="https://note.com/aquira" rel="noopener"><span class="related-sites__index">02</span><span><strong>記録と学び</strong><small>観察、制作、対話から生まれる考えをたどる入口。</small></span><span class="related-sites__arrow">→</span></a>
@@ -486,20 +506,20 @@ const englishMain = `
     <a class="button button--primary" href="/about/">View artist profile</a>
   </section>
   <section class="section" aria-labelledby="english-identity-title">
-    ${renderSectionHeading("OFFICIAL IDENTITY", content.english.identityTitle)}
-    <p id="english-identity-title" class="statement">${escapeHtml(content.english.identityText)}</p>
+    ${renderSectionHeading("OFFICIAL IDENTITY", content.english.identityTitle, "english-identity-title")}
+    <p class="statement">${escapeHtml(content.english.identityText)}</p>
   </section>
   <section class="section section--muted" aria-labelledby="english-practice-title">
-    ${renderSectionHeading("SELECTED PRACTICE", content.english.practiceTitle)}
-    <p id="english-practice-title" class="statement">${escapeHtml(content.english.practiceText)}</p>
+    ${renderSectionHeading("SELECTED PRACTICE", content.english.practiceTitle, "english-practice-title")}
+    <p class="statement">${escapeHtml(content.english.practiceText)}</p>
   </section>
   <section class="section" aria-labelledby="english-distinction-title">
-    ${renderSectionHeading("NAME CLARIFICATION", content.english.distinctionTitle)}
-    <p id="english-distinction-title" class="statement">${escapeHtml(content.english.distinctionText)}</p>
+    ${renderSectionHeading("NAME CLARIFICATION", content.english.distinctionTitle, "english-distinction-title")}
+    <p class="statement">${escapeHtml(content.english.distinctionText)}</p>
   </section>
   <section class="section section--muted" aria-labelledby="english-licensing-title">
-    ${renderSectionHeading("LICENSING & PERMISSIONS", content.english.licensingTitle)}
-    <p id="english-licensing-title" class="statement">${escapeHtml(content.english.licensingText)}</p>
+    ${renderSectionHeading("LICENSING & PERMISSIONS", content.english.licensingTitle, "english-licensing-title")}
+    <p class="statement">${escapeHtml(content.english.licensingText)}</p>
     <a class="text-link" href="/licensing/">View licensing information</a>
   </section>`;
 const englishSchema = [
@@ -513,8 +533,28 @@ const englishSchema = [
   }),
 ];
 
+const accessibilityTitle = `アクセシビリティ | ${content.site.titleSuffix}`;
+const accessibilityDescription = "Aquira（アキラ）公式サイトのアクセシビリティに関する取り組み、表示設定、連絡方法をご案内します。";
+const accessibilityMain = `
+  <section class="hero hero--compact" aria-labelledby="accessibility-title">
+    <p class="eyebrow">ACCESSIBILITY</p>
+    <h1 id="accessibility-title">誰もが、無理なく読めるために。</h1>
+    <p class="lead">Aquiraは、できる限り多くの方が、端末や環境にかかわらず作品と情報にアクセスできることを大切にしています。</p>
+  </section>
+  <section class="section" aria-labelledby="accessibility-tools-title">
+    ${renderSectionHeading("DISPLAY SETTINGS", "このサイトで調整できる表示", "accessibility-tools-title")}
+    <div class="prose-list"><article><h2>文字とコントラスト</h2><p>画面右下の「表示設定」から、文字サイズ、高コントラスト、リンクの下線表示を選べます。設定はお使いのブラウザーに保存されます。</p></article><article><h2>動きを抑える</h2><p>動きを抑える設定を選ぶと、画面上のアニメーションや遷移の動きを最小限にします。端末の「視差効果を減らす」設定にも対応します。</p></article></div>
+  </section>
+  <section class="section section--muted" aria-labelledby="accessibility-commitment-title">
+    ${renderSectionHeading("OUR COMMITMENT", "継続して改善する項目", "accessibility-commitment-title")}
+    <div class="prose-list"><article><h2>キーボード操作と構造</h2><p>キーボードだけで主要な情報と操作に到達できること、見出し・リンク・ランドマークが内容の構造を伝えることを確認しています。</p></article><article><h2>視覚情報の代替</h2><p>意味を持つ画像には代替テキストを付け、装飾のみの画像は読み上げ対象から除外します。映像を掲載する場合は、内容に応じて字幕や文字起こしの提供を検討します。</p></article><article><h2>確認とご連絡</h2><p>問題や改善のご提案がある場合は、状況、使用端末・ブラウザー、ページURLを添えてお問い合わせください。内容を確認し、合理的な範囲で対応します。</p></article></div>
+    <a class="button button--primary" href="${escapeHtml(content.contact.href)}">アクセシビリティに関するお問い合わせ</a>
+  </section>`;
+const accessibilitySchema = [websiteSchema(), personSchema(), pageSchema({ pathname: "/accessibility/", title: accessibilityTitle, description: accessibilityDescription })];
+
 const pages = [
   { pathname: "/", output: "index.html", title: homeTitle, description: content.site.description, schema: homeSchema, main: homeMain },
+  { pathname: "/accessibility/", output: "accessibility/index.html", title: accessibilityTitle, description: accessibilityDescription, schema: accessibilitySchema, main: accessibilityMain },
   { pathname: "/about/", output: "about/index.html", title: aboutTitle, description: aboutDescription, schema: aboutSchema, main: aboutMain },
   { pathname: "/policy/", output: "policy/index.html", title: policyTitle, description: policyDescription, schema: policySchema, main: policyMain },
   { pathname: "/ecosystem/", output: "ecosystem/index.html", title: ecosystemTitle, description: ecosystemDescription, schema: ecosystemSchema, main: ecosystemMain },

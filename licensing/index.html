@@ -15,6 +15,7 @@
       <link rel="alternate" href="https://www.aquira.art/licensing/" hreflang="ja" />
       <link rel="alternate" href="https://www.aquira.art/licensing/" hreflang="x-default" />
       <link rel="stylesheet" href="/styles.css" />
+      <script src="/accessibility.js" defer></script>
       <meta property="og:locale" content="ja_JP" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="Aquira（アキラ）" />
@@ -117,8 +118,19 @@
     <footer class="site-footer">
       <p class="site-footer__title">Aquira（アキラ）</p>
       <p class="site-footer__description">写真・オーディオビジュアル・現代アート — 横浜・日本</p>
-      <ul class="site-footer__links" aria-label="公式プロフィールとお問い合わせ"><li><a href="https://www.aquira.art/book-online">お問い合わせ・ご相談</a></li><li><a href="https://www.linkedin.com/in/aquirafillmoonmaker/" rel="me noopener">linkedin.com</a></li><li><a href="https://www.facebook.com/cameramanakira/" rel="me noopener">facebook.com</a></li><li><a href="https://www.instagram.com/aquirart" rel="me noopener">instagram.com</a></li><li><a href="https://www.youtube.com/@AQUIRA39" rel="me noopener">youtube.com</a></li></ul>
+      <ul class="site-footer__links" aria-label="公式プロフィールとお問い合わせ"><li><a href="/accessibility/">アクセシビリティ</a></li><li><a href="https://www.aquira.art/book-online">お問い合わせ・ご相談</a></li><li><a href="https://www.linkedin.com/in/aquirafillmoonmaker/" rel="me noopener">linkedin.com</a></li><li><a href="https://www.facebook.com/cameramanakira/" rel="me noopener">facebook.com</a></li><li><a href="https://www.instagram.com/aquirart" rel="me noopener">instagram.com</a></li><li><a href="https://www.youtube.com/@AQUIRA39" rel="me noopener">youtube.com</a></li></ul>
       <p class="site-footer__meta">公式情報の最終更新: <time datetime="2026-08-18">2026-08-18</time></p>
     </footer>
+
+    <div class="a11y-tools">
+      <button class="a11y-tools__trigger" type="button" data-a11y-trigger aria-expanded="false" aria-controls="a11y-panel">表示設定</button>
+      <section class="a11y-tools__panel" id="a11y-panel" data-a11y-panel role="dialog" aria-modal="false" aria-labelledby="a11y-panel-title" hidden>
+        <div class="a11y-tools__panel-header"><h2 id="a11y-panel-title">表示設定</h2><button class="a11y-tools__close" type="button" data-a11y-close aria-label="閉じる">×</button></div>
+        <p>お使いの端末に合わせて、読みやすさや動きの量を調整できます。</p>
+        <div class="a11y-tools__actions"><button type="button" data-a11y-action="font-decrease">A− 文字を小さく</button><button type="button" data-a11y-action="font-increase">A＋ 文字を大きく</button><button type="button" data-a11y-action="contrast" aria-pressed="false">高コントラスト</button><button type="button" data-a11y-action="underline" aria-pressed="false">リンクに下線</button><button type="button" data-a11y-action="motion" aria-pressed="false">動きを抑える</button><button type="button" data-a11y-action="reset">初期状態に戻す</button></div>
+        <a class="text-link" href="/accessibility/">アクセシビリティに関する情報</a>
+      </section>
+      <p class="visually-hidden" data-a11y-status aria-live="polite" aria-atomic="true"></p>
+    </div>
   </body>
 </html>
