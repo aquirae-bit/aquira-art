@@ -42,6 +42,7 @@ const siteContent = {
     { label: "活動と協働", href: "/practice/" },
     { label: "利用許諾のご相談", href: "/licensing/" },
     { label: "よくある質問", href: "/faq/" },
+    { label: "お問い合わせ", href: "https://www.aquira.art/book-online" },
   ],
 
   hero: {
@@ -50,6 +51,16 @@ const siteContent = {
     description:
       "Aquira（アキラ）は、横浜を拠点に写真、映像、オーディオビジュアル表現、現代アートを横断して制作するアーティストです。作品と対話、学びの場を通じて、人と社会を結ぶ表現の可能性を探究しています。",
     button: { label: "Aquiraについて知る", href: "/about/" },
+  },
+
+  contact: {
+    label: "お問い合わせ・ご相談",
+    href: "https://www.aquira.art/book-online",
+    eyebrow: "CONTACT",
+    title: "対話やご相談は、こちらから。",
+    description:
+      "作品、協働、講座、制作のご相談は、既存の公式コンタクトページからお送りいただけます。内容や条件が未整理の段階でも、お気軽にお声がけください。",
+    buttonLabel: "お問い合わせ・ご相談へ",
   },
 
   identityFacts: [

@@ -42,6 +42,7 @@ function renderHeader({ language = "ja" } = {}) {
     { label: "Japanese site", href: "/" },
     { label: "Artist profile", href: "/about/" },
     { label: "Licensing", href: "/licensing/" },
+    { label: "Contact", href: content.contact.href },
   ];
   const navigation = language === "en" ? englishNavigation : content.navigation;
   const navigationLabel = language === "en" ? "Primary navigation" : "主要ナビゲーション";
@@ -63,7 +64,7 @@ function renderFooter() {
     <footer class="site-footer">
       <p class="site-footer__title">${escapeHtml(content.footer.title)}</p>
       <p class="site-footer__description">${escapeHtml(content.footer.description)}</p>
-      <ul class="site-footer__links" aria-label="公式プロフィール">${socialLinks}</ul>
+      <ul class="site-footer__links" aria-label="公式プロフィールとお問い合わせ"><li><a href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.label)}</a></li>${socialLinks}</ul>
       <p class="site-footer__meta">公式情報の最終更新: <time datetime="${buildDate}">${buildDate}</time></p>
     </footer>`;
 }
@@ -207,7 +208,10 @@ const homeMain = `
     <p class="eyebrow">${escapeHtml(content.hero.eyebrow)}</p>
     <h1 id="hero-title">${escapeHtml(content.hero.title)}</h1>
     <p class="lead">${escapeHtml(content.hero.description)}</p>
-    <a class="button button--primary" href="${escapeHtml(content.hero.button.href)}">${escapeHtml(content.hero.button.label)}</a>
+    <div class="hero__actions">
+      <a class="button button--primary" href="${escapeHtml(content.hero.button.href)}">${escapeHtml(content.hero.button.label)}</a>
+      <a class="button button--secondary" href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.label)}</a>
+    </div>
   </section>
   <section class="section" aria-labelledby="identity-title">
     ${renderSectionHeading("AT A GLANCE", "Aquira（アキラ）は何を制作しているか")}
@@ -229,6 +233,11 @@ const homeMain = `
     ${renderSectionHeading(content.practice.eyebrow, content.practice.title)}
     <p class="statement">${escapeHtml(content.practice.summary)}</p>
     <a class="text-link" href="/practice/">活動と協働について知る</a>
+  </section>
+  <section class="section section--contact" aria-labelledby="contact-title">
+    ${renderSectionHeading(content.contact.eyebrow, content.contact.title)}
+    <p id="contact-title" class="statement">${escapeHtml(content.contact.description)}</p>
+    <a class="button button--primary" href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.buttonLabel)}</a>
   </section>
   <section class="section section--muted" aria-labelledby="relation-map-title">
     ${renderSectionHeading(content.relatedSites.eyebrow, content.relatedSites.title)}
