@@ -116,6 +116,29 @@ const siteContent = {
     ],
   },
 
+  relatedSites: {
+    eyebrow: "AQUIRA RELATION MAP",
+    title: "作品から、背景と実践へ。",
+    summary:
+      "Aquiraの作品・活動に触れた後、名称の由来と記録、または協働と社会との接点へ進めます。各サイトは同じ内容を繰り返すのではなく、異なる目的の情報を扱います。",
+    items: [
+      {
+        label: "起点・記録",
+        title: "名称の由来と、1978年からの記録を読む",
+        description:
+          "Aquiraという名称が生まれた背景と、個人史・公式記録を確認できます。",
+        href: "https://www.aquira1978.com/?utm_source=aquira_art&utm_medium=referral&utm_campaign=ecosystem",
+      },
+      {
+        label: "公共的実践",
+        title: "協働、対話、社会との接点を読む",
+        description:
+          "作品と記録を支える公共的実践、協働、学びの場への考え方を確認できます。",
+        href: "https://aquira.org/?utm_source=aquira_art&utm_medium=referral&utm_campaign=ecosystem",
+      },
+    ],
+  },
+
   licensing: {
     eyebrow: "LICENSING & PERMISSIONS",
     title: "利用許諾のご相談",

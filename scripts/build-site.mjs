@@ -193,6 +193,14 @@ function renderValueCards(items, { numbered = false } = {}) {
     .join("")}</div>`;
 }
 
+function renderRelatedSiteLinks() {
+  return `<div class="prose-list">${content.relatedSites.items
+    .map(
+      (item) => `<article><p class="eyebrow">${escapeHtml(item.label)}</p><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p><a class="text-link" href="${escapeHtml(item.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.label)}のサイトへ移動</a></article>`,
+    )
+    .join("")}</div>`;
+}
+
 const homeTitle = `${content.site.name} | 横浜の写真家・現代アーティスト`;
 const homeMain = `
   <section class="hero" aria-labelledby="hero-title">
@@ -221,6 +229,11 @@ const homeMain = `
     ${renderSectionHeading(content.practice.eyebrow, content.practice.title)}
     <p class="statement">${escapeHtml(content.practice.summary)}</p>
     <a class="text-link" href="/practice/">活動と協働について知る</a>
+  </section>
+  <section class="section section--muted" aria-labelledby="relation-map-title">
+    ${renderSectionHeading(content.relatedSites.eyebrow, content.relatedSites.title)}
+    <p id="relation-map-title" class="statement">${escapeHtml(content.relatedSites.summary)}</p>
+    ${renderRelatedSiteLinks()}
   </section>`;
 
 const homeSchema = [
