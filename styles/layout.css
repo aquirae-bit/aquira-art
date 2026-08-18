@@ -69,6 +69,12 @@
     padding-block: 1rem;
   }
 
+  .site-header__navigation {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+  }
+
   .site-footer {
     flex-direction: column;
   }
