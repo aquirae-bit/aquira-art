@@ -64,7 +64,7 @@ function renderFooter() {
     <footer class="site-footer">
       <p class="site-footer__title">${escapeHtml(content.footer.title)}</p>
       <p class="site-footer__description">${escapeHtml(content.footer.description)}</p>
-      <ul class="site-footer__links" aria-label="公式プロフィールとお問い合わせ"><li><a href="/accessibility/">アクセシビリティ</a></li><li><a href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.label)}</a></li>${socialLinks}</ul>
+      <ul class="site-footer__links" aria-label="公式プロフィール・法定情報・お問い合わせ"><li><a href="/accessibility/">アクセシビリティ</a></li><li><a href="${escapeHtml(content.footer.legalNotice.href)}">${escapeHtml(content.footer.legalNotice.label)}</a></li><li><a href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.label)}</a></li>${socialLinks}</ul>
       <p class="site-footer__meta">公式情報の最終更新: <time datetime="${buildDate}">${buildDate}</time></p>
     </footer>`;
 }
@@ -204,6 +204,29 @@ function renderWorkCards(items) {
       (work) => `<article class="work-card"><p class="work-card__number">${escapeHtml(work.number)}</p><h3>${escapeHtml(work.title)}</h3><p class="work-card__description">${escapeHtml(work.description)}</p></article>`,
     )
     .join("")}</div>`;
+}
+
+function renderLegalText(value) {
+  return escapeHtml(value).replaceAll(
+    "aquirae@me.com",
+    '<a href="mailto:aquirae@me.com">aquirae@me.com</a>',
+  );
+}
+
+function renderLegalDisclosure(entries) {
+  return `<dl class="legal-disclosure">${entries
+    .map((entry) => {
+      const paragraphs = entry.paragraphs
+        .map((paragraph, index) => {
+          const body = index === 0 && entry.href
+            ? `<a href="${escapeHtml(entry.href)}"${entry.href.startsWith("http") ? ' target="_blank" rel="noopener noreferrer"' : ""}>${escapeHtml(paragraph)}</a>`
+            : renderLegalText(paragraph);
+          return `<p>${body}</p>`;
+        })
+        .join("");
+      return `<div class="legal-disclosure__item"><dt>${escapeHtml(entry.label)}</dt><dd>${paragraphs}</dd></div>`;
+    })
+    .join("")}</dl>`;
 }
 
 function renderValueCards(items, { numbered = false } = {}) {
@@ -533,6 +556,23 @@ const englishSchema = [
   }),
 ];
 
+const tokushohoTitle = `特定商取引法に基づく表記 | ${content.site.titleSuffix}`;
+const tokushohoDescription = "Aquira（アキラ）の商品の販売条件、支払い方法、発送、返品・交換に関する特定商取引法に基づく表記です。";
+const tokushohoMain = `
+  <section class="hero hero--compact" aria-labelledby="tokushoho-title">
+    <p class="eyebrow">${escapeHtml(content.tokushoho.eyebrow)}</p>
+    <h1 id="tokushoho-title">${escapeHtml(content.tokushoho.title)}</h1>
+    <p class="lead">${escapeHtml(content.tokushoho.summary)}</p>
+  </section>
+  <section class="section" aria-label="特定商取引法に基づく表記の詳細">
+    ${renderLegalDisclosure(content.tokushoho.entries)}
+  </section>`;
+const tokushohoSchema = [
+  websiteSchema(),
+  personSchema(),
+  pageSchema({ pathname: "/tokushoho/", title: tokushohoTitle, description: tokushohoDescription }),
+];
+
 const accessibilityTitle = `アクセシビリティ | ${content.site.titleSuffix}`;
 const accessibilityDescription = "Aquira（アキラ）公式サイトのアクセシビリティに関する取り組み、表示設定、連絡方法をご案内します。";
 const accessibilityMain = `
@@ -555,6 +595,7 @@ const accessibilitySchema = [websiteSchema(), personSchema(), pageSchema({ pathn
 const pages = [
   { pathname: "/", output: "index.html", title: homeTitle, description: content.site.description, schema: homeSchema, main: homeMain },
   { pathname: "/accessibility/", output: "accessibility/index.html", title: accessibilityTitle, description: accessibilityDescription, schema: accessibilitySchema, main: accessibilityMain },
+  { pathname: "/tokushoho/", output: "tokushoho/index.html", title: tokushohoTitle, description: tokushohoDescription, schema: tokushohoSchema, main: tokushohoMain },
   { pathname: "/about/", output: "about/index.html", title: aboutTitle, description: aboutDescription, schema: aboutSchema, main: aboutMain },
   { pathname: "/policy/", output: "policy/index.html", title: policyTitle, description: policyDescription, schema: policySchema, main: policyMain },
   { pathname: "/ecosystem/", output: "ecosystem/index.html", title: ecosystemTitle, description: ecosystemDescription, schema: ecosystemSchema, main: ecosystemMain },

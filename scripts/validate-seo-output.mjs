@@ -10,6 +10,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const checks = [
   { file: "index.html", canonical: "https://www.aquira.art/", type: "WebPage", language: "ja" },
   { file: "accessibility/index.html", canonical: "https://www.aquira.art/accessibility/", type: "WebPage", language: "ja" },
+  { file: "tokushoho/index.html", canonical: "https://www.aquira.art/tokushoho/", type: "WebPage", language: "ja" },
   { file: "about/index.html", canonical: "https://www.aquira.art/about/", type: "ProfilePage", language: "ja" },
   { file: "policy/index.html", canonical: "https://www.aquira.art/policy/", type: "WebPage", language: "ja" },
   { file: "ecosystem/index.html", canonical: "https://www.aquira.art/ecosystem/", type: "WebPage", language: "ja" },

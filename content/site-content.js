@@ -314,9 +314,64 @@ const siteContent = {
       "For enquiries about using Aquira's artwork, images, moving image, creative materials, or official name and biography, please review the licensing and permissions information. A consultation does not itself grant permission; terms are agreed separately when appropriate.",
   },
 
+  tokushoho: {
+    eyebrow: "LEGAL NOTICE",
+    title: "特定商取引法に基づく表記",
+    summary:
+      "商品をご検討・ご購入いただく前に、販売条件と連絡先に関する情報をご確認ください。",
+    entries: [
+      { label: "販売事業者", paragraphs: ["Taiwa Kou Trading Co., Ltd"] },
+      { label: "運営統括責任者", paragraphs: ["藤原アキラ"] },
+      {
+        label: "所在地",
+        paragraphs: ["住所の開示請求があった場合には、遅滞なく電子メール等により開示いたします。"],
+      },
+      {
+        label: "電話番号",
+        paragraphs: ["電話番号の開示請求があった場合には、遅滞なく電子メール等により開示いたします。"],
+      },
+      { label: "メールアドレス", paragraphs: ["aquirae@me.com"], href: "mailto:aquirae@me.com" },
+      { label: "販売URL", paragraphs: ["https://aquira.art/"], href: "https://aquira.art/" },
+      { label: "販売価格", paragraphs: ["各商品ページに表示された価格（税込）"] },
+      {
+        label: "商品代金以外の必要料金",
+        paragraphs: [
+          "送料",
+          "海外配送に伴う送料、関税、輸入税、通関手数料その他の費用は、購入者の負担となります。",
+          "銀行振込を選択した場合の振込手数料は、購入者の負担となります。",
+        ],
+      },
+      { label: "お支払い方法", paragraphs: ["クレジットカード、PayPal、銀行振込"] },
+      {
+        label: "代金の支払い時期",
+        paragraphs: [
+          "クレジットカード決済は、ご注文時にお支払いが確定します。",
+          "銀行振込は、ご注文後14日以内にお支払いください。",
+        ],
+      },
+      {
+        label: "商品の引渡時期",
+        paragraphs: [
+          "ご入金確認後、通常14営業日以内に発送します。",
+          "受注制作商品は、制作開始から約○週間で発送します。",
+          "天候、配送事業者の事情、通関手続その他の事情により、配送が遅延する場合があります。",
+        ],
+      },
+      {
+        label: "返品・交換・キャンセル",
+        paragraphs: [
+          "原画、一点物および受注制作作品という商品の性質上、お客様都合による返品、交換またはキャンセルはお受けしておりません。",
+          "ただし、商品到着時の破損、配送中の事故、またはご注文内容と異なる商品が届いた場合は、商品到着後21日以内に、商品の状態が分かる写真を添えて、aquirae@me.com までご連絡ください。",
+          "内容を確認のうえ、返品、交換または返金等の対応を行います。返品にかかる送料は、当方の責任による場合には当方が負担します。",
+        ],
+      },
+    ],
+  },
+
   footer: {
     title: "Aquira（アキラ）",
     description: "写真・オーディオビジュアル・現代アート — 横浜・日本",
+    legalNotice: { label: "特定商取引法に基づく表記", href: "/tokushoho/" },
   },
 };
 
