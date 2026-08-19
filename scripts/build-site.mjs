@@ -12,7 +12,8 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectDirectory = path.resolve(scriptDirectory, "..");
 const contentPath = pathToFileURL(path.join(projectDirectory, "content", "site-content.js"));
 const { default: content } = await import(`${contentPath.href}?updated=${Date.now()}`);
-const buildDate = "2026-08-18";
+const buildDate = "2026-08-19";
+const assetVersion = "20260819";
 
 function escapeHtml(value) {
   return String(value)
@@ -31,31 +32,33 @@ function absoluteUrl(pathname) {
   return new URL(pathname, `${content.site.origin}/`).href;
 }
 
-function renderNavigation(navigation = content.navigation) {
+function renderNavigation(navigation, pathname) {
   return navigation
-    .map((item) => `<a href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`)
+    .map((item) => {
+      const current = item.href === pathname ? ' aria-current="page"' : "";
+      return `<a href="${escapeHtml(item.href)}"${current}>${escapeHtml(item.label)}</a>`;
+    })
     .join("\n");
 }
-
-function renderHeader({ language = "ja" } = {}) {
+function renderHeader({ language = "ja", pathname = "/" } = {}) {
   const englishNavigation = [
-    { label: "Japanese site", href: "/" },
     { label: "Artist profile", href: "/about/" },
-    { label: "Licensing", href: "/licensing/" },
-    { label: "Contact", href: content.contact.href },
+    { label: "Works", href: "/works/" },
+    { label: "Practice", href: "/practice/" },
   ];
   const navigation = language === "en" ? englishNavigation : content.navigation;
   const navigationLabel = language === "en" ? "Primary navigation" : "主要ナビゲーション";
   const homeLabel = language === "en" ? `${content.site.shortName} home` : `${content.site.name} ホーム`;
+  const contactLabel = language === "en" ? "Contact" : "お問い合わせ";
   return `
     <header class="site-header">
       <a class="wordmark" href="/" aria-label="${escapeHtml(homeLabel)}">${escapeHtml(content.site.shortName)}</a>
       <nav class="site-header__navigation" aria-label="${escapeHtml(navigationLabel)}">
-        ${renderNavigation(navigation)}
+        ${renderNavigation(navigation, pathname)}
       </nav>
+      <a class="site-header__contact" href="${escapeHtml(content.contact.href)}">${escapeHtml(contactLabel)}</a>
     </header>`;
 }
-
 function renderFooter() {
   const socialLinks = content.entity.sameAs
     .map((url) => `<li><a href="${escapeHtml(url)}" rel="me noopener">${escapeHtml(new URL(url).hostname.replace("www.", ""))}</a></li>`)
@@ -139,8 +142,8 @@ function renderHead({ pathname, title, description, schema, language = "ja" }) {
       <title>${escapeHtml(title)}</title>
       <link rel="canonical" href="${escapeHtml(canonical)}" />
       ${renderLanguageAlternates(pathname)}
-      <link rel="stylesheet" href="/styles.css" />
-      <script src="/accessibility.js" defer></script>
+      <link rel="stylesheet" href="/styles.css?v=${assetVersion}" />
+      <script src="/accessibility.js?v=${assetVersion}" defer></script>
       <meta property="og:locale" content="${isEnglish ? "en_US" : "ja_JP"}" />
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content="${escapeHtml(content.site.name)}" />
@@ -179,7 +182,7 @@ function renderLayout({ pathname, title, description, schema, main, language = "
   ${renderHead({ pathname, title, description, schema, language })}
   <body>
     <a class="skip-link" href="#main-content">${escapeHtml(skipLabel)}</a>
-    ${renderHeader({ language })}
+    ${renderHeader({ language, pathname })}
     <main id="main-content">${main}</main>
     ${renderFooter()}
     ${renderAccessibilityTools({ language })}
@@ -237,14 +240,6 @@ function renderValueCards(items, { numbered = false } = {}) {
     .join("")}</div>`;
 }
 
-function renderRelatedSiteLinks() {
-  return `<div class="prose-list">${content.relatedSites.items
-    .map(
-      (item) => `<article><p class="eyebrow">${escapeHtml(item.label)}</p><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description)}</p><a class="text-link" href="${escapeHtml(item.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.label)}のサイトへ移動</a></article>`,
-    )
-    .join("")}</div>`;
-}
-
 const homeTitle = `${content.site.name} | 横浜の写真家・現代アーティスト`;
 const homeMain = `
   <section class="hero" aria-labelledby="hero-title">
@@ -257,14 +252,9 @@ const homeMain = `
     </div>
   </section>
   <section class="section" aria-labelledby="identity-title">
-    ${renderSectionHeading("AT A GLANCE", "Aquira（アキラ）は何を制作しているか", "identity-title")}
+    ${renderSectionHeading("AT A GLANCE", "Aquira（アキラ）について", "identity-title")}
     <p class="statement">${escapeHtml(content.entity.description)}</p>
     ${renderIdentityFacts()}
-  </section>
-  <section class="section section--muted" aria-labelledby="name-clarification-title">
-    ${renderSectionHeading(content.nameClarification.eyebrow, content.nameClarification.title, "name-clarification-title")}
-    <p class="statement">${escapeHtml(content.nameClarification.text)}</p>
-    <a class="text-link" href="/licensing/">作品・公式表記の利用許諾について</a>
   </section>
   <section class="section section--muted" aria-labelledby="works-title">
     ${renderSectionHeading(content.works.eyebrow, content.works.title, "works-title")}
@@ -278,14 +268,9 @@ const homeMain = `
     <a class="text-link" href="/practice/">活動と協働について知る</a>
   </section>
   <section class="section section--contact" aria-labelledby="contact-title">
-    ${renderSectionHeading(content.contact.eyebrow, content.contact.title, "contact-title")}
+    ${renderSectionHeading("CONTACT", "対話やご相談は、こちらから。", "contact-title")}
     <p class="statement">${escapeHtml(content.contact.description)}</p>
     <a class="button button--primary" href="${escapeHtml(content.contact.href)}">${escapeHtml(content.contact.buttonLabel)}</a>
-  </section>
-  <section class="section section--muted" aria-labelledby="relation-map-title">
-    ${renderSectionHeading(content.relatedSites.eyebrow, content.relatedSites.title, "relation-map-title")}
-    <p class="statement">${escapeHtml(content.relatedSites.summary)}</p>
-    ${renderRelatedSiteLinks()}
   </section>`;
 
 const homeSchema = [
@@ -475,10 +460,10 @@ const ecosystemMain = `
   <section class="section section--muted" aria-labelledby="ecosystem-invitation-title">
     ${renderSectionHeading("WAYS TO CONNECT", "作品から、対話へ。対話から、次の表現へ。", "ecosystem-invitation-title")}
     <p class="statement">Aquiraのエコシステムは、ひとつの正解へ導くためのものではありません。作品を観ること、考えを読むこと、学びや対話に触れることを通して、それぞれが自分の速度で、次の視点を見つけられるようにするための場です。</p>
-    <div class="related-sites">
-      <a class="related-sites__card related-sites__card--art" href="/works/"><span class="related-sites__index">01</span><span><strong>作品と余韻</strong><small>光、場所、時間をめぐる表現に触れる入口。</small></span><span class="related-sites__arrow">→</span></a>
-      <a class="related-sites__card related-sites__card--record" href="https://note.com/aquira" rel="noopener"><span class="related-sites__index">02</span><span><strong>記録と学び</strong><small>観察、制作、対話から生まれる考えをたどる入口。</small></span><span class="related-sites__arrow">→</span></a>
-      <a class="related-sites__card related-sites__card--public" href="/practice/"><span class="related-sites__index">03</span><span><strong>協働と相談</strong><small>アイデアや条件が未整理の段階から、静かに話す入口。</small></span><span class="related-sites__arrow">→</span></a>
+    <div class="prose-list">
+      <article><h2>作品と余韻</h2><p>光、場所、時間をめぐる表現に触れる入口です。<a class="text-link" href="/works/">作品を見る</a></p></article>
+      <article><h2>記録と学び</h2><p>観察、制作、対話から生まれる考えをたどる入口です。<a class="text-link" href="https://note.com/aquira" rel="noopener noreferrer" target="_blank">記録を読む</a></p></article>
+      <article><h2>協働と相談</h2><p>アイデアや条件が未整理の段階から、静かに話す入口です。<a class="text-link" href="/practice/">活動と協働を見る</a></p></article>
     </div>
   </section>`;
 const ecosystemSchema = [

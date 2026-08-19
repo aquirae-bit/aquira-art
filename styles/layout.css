@@ -16,7 +16,8 @@
 
 .site-header__navigation {
   display: flex;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  gap: clamp(0.8rem, 2.2vw, 1.75rem);
+  margin-left: auto;
 }
 
 .site-footer {
@@ -73,6 +74,7 @@
     width: 100%;
     flex-wrap: wrap;
     gap: 0.6rem 1rem;
+    margin-left: 0;
   }
 
   .site-footer {

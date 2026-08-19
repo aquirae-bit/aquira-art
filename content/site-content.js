@@ -37,20 +37,16 @@ const siteContent = {
 
   navigation: [
     { label: "Aquiraについて", href: "/about/" },
-    { label: "思想と原則", href: "/policy/" },
     { label: "作品", href: "/works/" },
     { label: "活動と協働", href: "/practice/" },
-    { label: "利用許諾のご相談", href: "/licensing/" },
-    { label: "よくある質問", href: "/faq/" },
-    { label: "お問い合わせ", href: "https://www.aquira.art/book-online" },
   ],
 
   hero: {
     eyebrow: "AQUIRA · YOKOHAMA, JAPAN",
     title: "光の記録から、社会との接点へ。",
     description:
-      "Aquira（アキラ）は、横浜を拠点に写真、映像、オーディオビジュアル表現、現代アートを横断して制作するアーティストです。作品と対話、学びの場を通じて、人と社会を結ぶ表現の可能性を探究しています。",
-    button: { label: "Aquiraについて知る", href: "/about/" },
+      "横浜を拠点に、写真、映像、オーディオビジュアル表現、現代アートを制作しています。",
+    button: { label: "作品と活動を見る", href: "/works/" },
   },
 
   contact: {
@@ -69,12 +65,6 @@ const siteContent = {
     { label: "テーマ", value: "表現、対話、社会との協働" },
   ],
 
-  nameClarification: {
-    eyebrow: "OFFICIAL IDENTITY",
-    title: "このサイトのAquiraについて",
-    text:
-      "本サイトのAquira（アキラ）は、横浜を拠点とする写真家・オーディオビジュアル・現代アーティストに関する公式情報です。同じ、または類似した名称を用いるソフトウェア、製品、団体その他の第三者とは別の存在です。作品、活動、公式情報の参照先は本サイトおよびここからリンクする公式プロフィールです。",
-  },
 
   works: {
     eyebrow: "SELECTED PRACTICE",
@@ -127,28 +117,6 @@ const siteContent = {
     ],
   },
 
-  relatedSites: {
-    eyebrow: "AQUIRA RELATION MAP",
-    title: "作品から、背景と実践へ。",
-    summary:
-      "Aquiraの作品・活動に触れた後、名称の由来と記録、または協働と社会との接点へ進めます。各サイトは同じ内容を繰り返すのではなく、異なる目的の情報を扱います。",
-    items: [
-      {
-        label: "起点・記録",
-        title: "名称の由来と、1978年からの記録を読む",
-        description:
-          "Aquiraという名称が生まれた背景と、個人史・公式記録を確認できます。",
-        href: "https://www.aquira1978.com/?utm_source=aquira_art&utm_medium=referral&utm_campaign=ecosystem",
-      },
-      {
-        label: "公共的実践",
-        title: "協働、対話、社会との接点を読む",
-        description:
-          "作品と記録を支える公共的実践、協働、学びの場への考え方を確認できます。",
-        href: "https://aquira.org/?utm_source=aquira_art&utm_medium=referral&utm_campaign=ecosystem",
-      },
-    ],
-  },
 
   licensing: {
     eyebrow: "LICENSING & PERMISSIONS",
