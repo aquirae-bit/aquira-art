@@ -88,6 +88,62 @@
       background: #6d155e !important;
       content: "" !important;
     }
+    /* Keep non-brand tooling out of the artwork and footer reading planes. */
+    #interactive-studio-watermark {
+      display: none !important;
+    }
+    [data-aquira-chat-notification="true"] {
+      display: none !important;
+    }
+    [data-hook="consent-banner-revisit-settings-container"] {
+      position: fixed !important;
+      z-index: 80 !important;
+      right: max(1rem, env(safe-area-inset-right)) !important;
+      bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+      left: auto !important;
+      width: auto !important;
+      max-width: calc(100vw - 2rem) !important;
+      min-height: 0 !important;
+      padding: 0 !important;
+      border: 1px solid rgba(247, 244, 236, 0.38) !important;
+      background: rgba(8, 9, 9, 0.92) !important;
+      box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.28) !important;
+      opacity: 0.78 !important;
+      transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1) !important;
+    }
+    [data-hook="consent-banner-revisit-settings-container"]:hover,
+    [data-hook="consent-banner-revisit-settings-container"]:focus-within {
+      opacity: 1 !important;
+      transform: translateY(-0.125rem) !important;
+    }
+    [data-hook="consent-banner-revisit-settings-button"] {
+      min-height: 2.35rem !important;
+      padding: 0.45rem 0.7rem !important;
+      background: transparent !important;
+      color: #f7f4ec !important;
+      font-family: Arial, "Noto Sans JP", sans-serif !important;
+      font-size: 0.72rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.06em !important;
+    }
+    [data-hook="consent-banner-revisit-settings-button"] p {
+      color: inherit !important;
+    }
+    [data-hook="consent-banner-revisit-settings-close-button"] {
+      display: none !important;
+    }
+    @media (max-width: 700px) {
+      [data-hook="consent-banner-revisit-settings-container"] {
+        right: max(0.75rem, env(safe-area-inset-right)) !important;
+        bottom: max(0.75rem, env(safe-area-inset-bottom)) !important;
+        opacity: 0.68 !important;
+      }
+      [data-hook="consent-banner-revisit-settings-button"] {
+        min-height: 2.15rem !important;
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.68rem !important;
+      }
+    }
     .aquira-ui-remediation-visually-hidden {
       position: absolute !important;
       width: 1px !important;
@@ -147,13 +203,21 @@
     return true;
   };
 
+  const normaliseSupplementalUi = () => {
+    document.getElementById("interactive-studio-watermark")?.setAttribute("aria-hidden", "true");
+    document.querySelectorAll("[aria-label='未読メッセージの通知です']").forEach((notice) => {
+      notice.closest("[data-hook='popover-content']")?.setAttribute("data-aquira-chat-notification", "true");
+    });
+  };
+
   const initialise = () => {
     injectStyles();
-    if (normaliseFeed()) return;
+    normaliseSupplementalUi();
+    normaliseFeed();
 
     const observer = new MutationObserver(() => {
-      if (!normaliseFeed()) return;
-      observer.disconnect();
+      normaliseSupplementalUi();
+      normaliseFeed();
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
     window.setTimeout(() => observer.disconnect(), 15000);
