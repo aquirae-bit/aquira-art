@@ -46,6 +46,7 @@
       margin: clamp(2.5rem, 6vw, 5.5rem) auto clamp(3rem, 7vw, 6.5rem) !important;
       overflow: hidden !important;
       border: 1px solid rgba(247, 244, 236, 0.22) !important;
+      border-top: 2px solid #6d155e !important;
       background: #ffffff !important;
       box-shadow: 0 1.25rem 3.5rem rgba(0, 0, 0, 0.3) !important;
       transform: none !important;
@@ -77,6 +78,15 @@
     #aquira-footer-shell {
       border-top-color: rgba(247, 244, 236, 0.24) !important;
       background: #080909 !important;
+    }
+    #aquira-footer-shell::before {
+      position: absolute !important;
+      top: 0 !important;
+      left: clamp(1.25rem, 5vw, 4rem) !important;
+      width: 0.22rem !important;
+      height: 3rem !important;
+      background: #6d155e !important;
+      content: "" !important;
     }
     .aquira-ui-remediation-visually-hidden {
       position: absolute !important;
