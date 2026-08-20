@@ -1,0 +1,44 @@
+<!-- Aquira Legacy Page Retirement 2026-08
+     Place in Wix Custom Code: Head, All Pages, load on each new page.
+     Purpose: Retire the approved legacy URLs by replacing their history entry with the homepage. -->
+<script>
+(() => {
+  "use strict";
+
+  const retiredPaths = new Set([
+    "/payment-request-page",
+    "/ai-it-section",
+    "/groups",
+    "/accessibility-statement",
+    "/about-4",
+    "/blank-20",
+    "/copy-of-italian-refund-policy",
+    "/courses",
+    "/refer-friends",
+    "/referral",
+    "/japanese-refund-policy",
+    "/portfolio-1-1",
+    "/gift-card",
+    "/challenges",
+    "/projects-1",
+    "/利用規約",
+    "/loyalty"
+  ]);
+
+  const normalisePath = (value) => {
+    const trimmed = value.length > 1 ? value.replace(/\/+$/, "") : value;
+    return trimmed || "/";
+  };
+
+  let currentPath;
+  try {
+    currentPath = normalisePath(decodeURIComponent(window.location.pathname));
+  } catch {
+    currentPath = normalisePath(window.location.pathname);
+  }
+
+  if (retiredPaths.has(currentPath)) {
+    window.location.replace("/");
+  }
+})();
+</script>
